@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=1200"> <!-- PC Mode Lock -->
     <title>Checkout - Abdullah Store</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <script>/* Payment Method */
+.payment-method {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-black);
+    transition: 0.3s;
+}
+
+.payment-method:hover {
+    border-color: var(--deep-cyan);
+}
+
+.payment-method.selected {
+    border-color: var(--deep-green) !important;
+    background: rgba(22, 163, 74, 0.1) !important;
+    box-shadow: 0 4px 15px rgba(22, 163, 74, 0.2);
+    color: var(--deep-green);
+    font-weight: 900;
+}
+    </script>
 </head>
 <body>
     <header class="header">

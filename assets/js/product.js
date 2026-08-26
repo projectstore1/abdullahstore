@@ -12,12 +12,14 @@ if (docSnap.exists()) {
     const stockClass = p.stock === "Available" ? 'in-stock' : 'out-stock';
     
     document.getElementById('detail-container').innerHTML = `
-        <img src="${p.image}" class="detail-img" alt="${p.name}">
-        <div class="detail-info">
-            <h1>${p.name}</h1>
+        <!-- বড় Image (Full Width) -->
+        <img src="${p.image}" class="detail-img" alt="${p.name}" style="width: 100%; height: 450px; object-fit: cover; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+        
+        <div class="detail-info" style="margin-top: 30px;">
+            <h1 style="font-size: 36px;">${p.name}</h1>
             <div class="detail-price">৳ ${p.price}</div>
             <span class="badge ${stockClass}">${p.stock}</span>
-            <p style="margin:15px 0; color:#6B7280;">${p.description || 'High quality product.'}</p>
+            <p style="margin: 15px 0; color: #555; font-size: 18px;">${p.description || 'High quality product.'}</p>
             
             <div class="unit-selection">
                 <h3>Select Unit</h3>
@@ -28,7 +30,7 @@ if (docSnap.exists()) {
             
             <div class="qty-selector">
                 <button class="qty-btn" onclick="updateQty(-1)">-</button>
-                <span id="qty" style="font-size:24px; font-weight:700;">1</span>
+                <span id="qty" style="font-size: 24px; font-weight: 700;">1</span>
                 <button class="qty-btn" onclick="updateQty(1)">+</button>
             </div>
             

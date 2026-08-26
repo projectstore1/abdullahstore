@@ -33,29 +33,41 @@ onSnapshot(collection(db, "products"), (snapshot) => {
     snapshot.forEach((doc) => {
         const p = doc.data();
         const stockClass = p.stock === "Available" ? 'in-stock' : 'out-stock';
+        
+        // ✅ Full Card Click goes to Details, Add Button stops propagation
         container.innerHTML += `
-            <div class="product-card">
+            <div class="product-card" onclick="window.location.href='product-details.html?id=${doc.id}'">
                 <span class="badge ${stockClass}">${p.stock}</span>
                 <img src="${p.image}" class="p-img" alt="${p.name}">
                 <div class="p-info">
                     <div class="p-name">${p.name}</div>
                     <div class="p-price">৳ ${p.price}</div>
+                    <div class="p-category">${p.category}</div>
                 </div>
-                <div class="actions">
-                    <button class="add-btn" onclick="addToCart('${doc.id}')">+</button>
-                    <a href="product-details.html?id=${doc.id}" class="view-btn">View</a>
-                </div>
+                <button class="add-btn" onclick="addToCart(event, '${doc.id}')">+</button>
             </div>
         `;
     });
 });
 
-window.addToCart = (id) => {
+// ✅ Correct Add to Cart Logic (Prevents Page Change)
+window.addToCart = (event, id) => {
+    event.stopPropagation(); // Prevents card click from firing
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const item = cart.find(x => x.id === id);
     if(item) item.qty++;
     else cart.push({ id: id, qty: 1 });
     localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Smooth UI Feedback
+    const btn = event.target;
+    btn.style.transform = 'scale(1.3)';
+    btn.style.background = 'var(--deep-green)';
+    setTimeout(() => {
+        btn.style.transform = 'scale(1)';
+        btn.style.background = 'var(--text-black)';
+    }, 500);
+    
     alert('Added to List!');
 };
 

@@ -24,18 +24,17 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* 🔒 HARD PC LOCK - Mobile এ জুম আউট হবে না */
+/* 🔒 Mobile এ PC View - সবসময় Full Desktop Width থাকবে */
 html, body {
     width: 100%;
-    min-width: 1200px; /* PC Width Lock */
-    overflow-x: hidden; /* Horizontal Scroll বন্ধ */
+    min-width: 1200px; /* Fix: মোবাইলেও PC view */
+    overflow-x: auto;
     background: var(--bg-white);
     color: var(--text-black);
-    max-width: 100%;
 }
 
 /* ==========================================
-   HEADER
+   HEADER (Logo + Search + Cart)
    ========================================== */
 
 .header {
@@ -55,7 +54,7 @@ html, body {
 .logo {
     font-size: 24px;
     font-weight: 900;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     color: var(--text-black);
     transition: 0.3s;
 }
@@ -212,7 +211,7 @@ html, body {
 }
 
 /* ==========================================
-   PRODUCT CARDS
+   PRODUCT CARDS (Suto Suto)
    ========================================== */
 
 .product-grid {

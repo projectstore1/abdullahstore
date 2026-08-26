@@ -286,6 +286,34 @@ html, body {
     color: var(--text-gray);
 }
 
+/* Search Box: Logo থেকে Cart পর্যন্ত জায়গা নেবে */
+.search-box {
+    flex: 1; /* পুরো জায়গা জুড়ে প্রসারিত */
+    max-width: 600px; /* সর্বোচ্চ সীমা */
+    margin: 0 30px;
+    display: flex;
+    align-items: center;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 10px 20px;
+    transition: 0.3s;
+}
+
+.search-box:focus-within {
+    border-color: var(--deep-cyan);
+    box-shadow: 0 0 0 3px rgba(0, 168, 204, 0.1);
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    color: var(--text-black);
+    font-size: 16px;
+}
+
 /* ==========================================
    BUTTONS
    ========================================== */

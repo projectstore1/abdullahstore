@@ -30,16 +30,6 @@ body {
     width: 100%;
 }
 
-/* Responsive Media Queries */
-@media (max-width: 768px) {
-    .header { padding: 10px 15px; }
-    .search-box { margin: 0 10px; }
-    .container { padding: 10px; }
-    .product-grid { gap: 10px; }
-    .banner { margin: 15px; padding: 30px 15px; }
-    .footer { padding: 15px; }
-}
-
 /* ==========================================
    HEADER
    ========================================== */
@@ -59,16 +49,15 @@ body {
 }
 
 .logo {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 900;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     color: var(--text-black);
     transition: 0.3s;
 }
 
 .logo:hover {
     color: var(--deep-cyan);
-    transform: scale(1.05);
 }
 
 .search-box {
@@ -170,15 +159,22 @@ body {
 }
 
 /* ==========================================
-   CATEGORY CARDS
+   CATEGORY CARDS (1 Line Horizontal Scroll)
    ========================================== */
 
 .categories {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding-bottom: 20px;
+    flex-wrap: nowrap; /* 1 লাইন থাকবে */
+    gap: 15px;
+    padding-bottom: 15px;
+    overflow-x: auto; /* ডান থেকে বামে স্ক্রল হবে */
     justify-content: flex-start;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+}
+
+.categories::-webkit-scrollbar {
+    display: none;
 }
 
 .cat-card {
@@ -219,13 +215,34 @@ body {
 }
 
 /* ==========================================
-   PRODUCT CARDS
+   PRODUCT CARDS (1 Line Horizontal Scroll)
    ========================================== */
 
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 25px;
+}
+
+/* যখন মোবাইলে 4টি কার্ড পাশাপাশি দেখাবে */
+@media (max-width: 768px) {
+    .product-grid {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 10px;
+        padding-bottom: 15px;
+        scrollbar-width: none;
+    }
+    
+    .product-grid::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .product-card {
+        min-width: 160px; /* মোবাইলে 4টি কার্ডের জন্য ছোট সাইজ */
+        max-width: 200px;
+    }
 }
 
 .product-card {
@@ -262,7 +279,7 @@ body {
 
 .p-img {
     width: 100%;
-    height: 180px;
+    height: 150px;
     object-fit: cover;
     transition: transform 0.5s;
 }
@@ -292,6 +309,35 @@ body {
 .p-category {
     font-size: 13px;
     color: var(--text-gray);
+}
+
+/* ==========================================
+   ADD TO CART BUTTON
+   ========================================== */
+
+.add-btn {
+    background: var(--text-black);
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.add-btn:hover {
+    background: var(--deep-cyan);
+    transform: scale(1.2);
+    box-shadow: 0 5px 15px rgba(0, 168, 204, 0.3);
 }
 
 /* ==========================================
@@ -482,7 +528,7 @@ input:focus, textarea:focus, select:focus {
     text-align: center;
     padding: 25px;
     margin-top: 60px;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--text-gray);
 }
 
@@ -490,4 +536,38 @@ input:focus, textarea:focus, select:focus {
     font-size: 20px;
     font-weight: 900;
     color: var(--deep-purple);
+}
+
+/* Mobile Header & Footer Adjustments */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px 15px;
+    }
+    .logo {
+        font-size: 18px;
+    }
+    .search-box {
+        max-width: 200px;
+        margin: 0 10px;
+    }
+    .cart-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+    .container {
+        padding: 10px 15px;
+    }
+    .banner {
+        margin: 15px;
+        padding: 30px 15px;
+    }
+    .banner h1 {
+        font-size: 22px;
+    }
+    .footer {
+        padding: 15px;
+    }
+    .footer strong {
+        font-size: 16px;
+    }
 }

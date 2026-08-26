@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="assests/css/admin.css">
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-logo">ABDULLAH STORE</div>
         <a href="dashboard.html" class="nav-link">Dashboard</a>
@@ -19,11 +18,8 @@
 
     <div class="main-content">
         <h1 class="page-title">Edit Product</h1>
-        
         <div class="card">
-            <!-- Hidden field for Product ID -->
             <input type="hidden" id="product-id">
-
             <div class="form-group">
                 <label>Product Name</label>
                 <input type="text" id="product-name">
@@ -61,18 +57,10 @@
                     <option value="Piece">Piece</option>
                 </select>
             </div>
-
             <button class="btn btn-primary" onclick="updateProduct()">Update Product</button>
-            <a href="products.html" class="btn" style="background: #6B7280; color: white; margin-left: 10px;">Back to List</a>
         </div>
     </div>
 
-    <!-- Import the main products.js file which now contains both Add and Edit logic -->
     <script type="module" src="assets/js/products.js"></script>
-    <script type="module">
-    import { updateProduct, loadProductForEdit } from './assets/js/products.js';
-    loadProductForEdit();
-    window.updateProduct = updateProduct;
-    </script>
 </body>
 </html>

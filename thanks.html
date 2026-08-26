@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=600">
+    <meta name="viewport" content="width=1200">
     <title>Thank You - Abdullah Store</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
@@ -13,32 +13,50 @@
             border-radius: 20px;
             margin-top: 50px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
         }
         .icon { font-size: 80px; color: var(--primary); }
-        h1 { color: var(--text); margin: 20px 0; }
+        h1 { color: var(--text); margin: 20px 0; font-size: 36px; font-weight: 900; }
+        h3 { color: var(--text); font-size: 22px; }
         .brand { color: var(--primary); font-weight: 900; font-size: 24px; }
+        p { font-size: 18px; color: var(--text-gray); }
+        .success-msg {
+            background: #f0fdf4;
+            border: 1px solid #dcfce7;
+            color: #16a34a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <header class="header">
-        <div class="logo">ABDULLAH STORE</div>
+        <div class="logo" onclick="location.href='index.html'">ABDULLAH STORE</div>
     </header>
 
     <div class="container">
         <div class="thanks-box">
             <div class="icon">✔</div>
-            <h1>Order Successful</h1>
-            <h3>Thanks For Ordering</h3>
+            <h1>অর্ডার সফল হয়েছে!</h1>
+            <h3>ধন্যবাদ! আপনার অর্ডারটি আমরা পেয়েছি।</h3>
+            
             <p style="margin-top:20px;">Via</p>
             <div class="brand">ABDULLAH STORE</div>
-            <p style="margin-top:20px;">আপনার অর্ডার গ্রহণ করা হয়েছে।<br>আপনার পণ্য কিছুক্ষণের মধ্যে পৌঁছে যাবে।</p>
             
-            <button class="btn-primary" style="margin-top:30px; max-width:300px; margin-left:auto; margin-right:auto;" onclick="location.href='Index.html'">Back To Home</button>
+            <div class="success-msg">
+                ✅ আপনার অর্ডার পেয়েছি! <br>
+                কিছুক্ষণের মধ্যে আপনাকে কল করে অর্ডার কনফার্ম করা হবে। <br>
+                অর্ডার কনফার্ম করার ১/২ ঘণ্টার মধ্যে আপনার পণ্য পৌঁছে যাবে ইনশাআল্লাহ!
+            </div>
+            
+            <button class="btn-primary" style="margin-top:30px; max-width:300px; margin-left:auto; margin-right:auto; display:block;" onclick="location.href='index.html'">হোমে ফিরে যান</button>
         </div>
     </div>
 
     <footer class="footer">
-        Developed by Abdullah Khan
+        <strong>Developed by Abdullah Khan</strong>
     </footer>
 </body>
 </html>

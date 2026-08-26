@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Category - Admin</title>
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-logo">ABDULLAH STORE</div>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="categories.html" class="nav-link active">Categories</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="orders.html" class="nav-link">Orders</a>
+        <a href="settings.html" class="nav-link">Settings</a>
+    </div>
+
+    <div class="main-content">
+        <h1 class="page-title">Add Category</h1>
+        
+        <div class="card">
+            <div class="form-group">
+                <label>Category Name</label>
+                <input type="text" id="category-name" placeholder="Enter category name">
+            </div>
+            <div class="form-group">
+                <label>Category Image URL</label>
+                <input type="text" id="category-image" placeholder="https://example.com/image.jpg">
+            </div>
+            <button class="btn btn-primary" onclick="saveCategory()">Save</button>
+        </div>
+    </div>
+
+    <script type="module" src="assets/js/add-categories.js"></script>
+</body>
+</html>

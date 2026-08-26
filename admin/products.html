@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Admin</title>
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-logo">ABDULLAH STORE</div>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="categories.html" class="nav-link">Categories</a>
+        <a href="products.html" class="nav-link active">Products</a>
+        <a href="orders.html" class="nav-link">Orders</a>
+        <a href="settings.html" class="nav-link">Settings</a>
+    </div>
+
+    <div class="main-content">
+        <h1 class="page-title">Products</h1>
+        
+        <div style="margin-bottom: 20px;">
+            <a href="add-product.html" class="btn btn-primary">+ Add Product</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="products-table"></tbody>
+        </table>
+    </div>
+
+    <script type="module" src="assets/js/products.js"></script>
+  <script type="module">
+    import { loadProducts } from './assets/js/products.js';
+    loadProducts();
+  </script>
+</body>
+</html>

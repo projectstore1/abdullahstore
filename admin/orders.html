@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Admin</title>
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-logo">ABDULLAH STORE</div>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="categories.html" class="nav-link">Categories</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="orders.html" class="nav-link active">Orders</a>
+        <a href="settings.html" class="nav-link">Settings</a>
+    </div>
+
+    <div class="main-content">
+        <h1 class="page-title">Orders</h1>
+
+        <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+            <button class="btn btn-primary" onclick="filterOrders('Pending')">Pending</button>
+            <button class="btn" style="background: var(--processing); color: white;" onclick="filterOrders('Processing')">Processing</button>
+            <button class="btn" style="background: var(--success); color: white;" onclick="filterOrders('Completed')">Completed</button>
+            <button class="btn" style="background: var(--danger); color: white;" onclick="filterOrders('All')">All</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="orders-table"></tbody>
+        </table>
+    </div>
+
+    <script type="module" src="assets/js/orders.js"></script>
+</body>
+</html>

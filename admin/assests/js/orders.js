@@ -1,31 +1,55 @@
-async function loadOrderDetails() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const orderId = urlParams.get('id');
-    const docRef = doc(db, "orders", orderId);
-    const docSnap = await getDoc(docRef);
+// admin/assests/js/orders.js
+import { db, collection, getDocs, updateDoc, doc } from './firebase.js';
 
-    if (docSnap.exists()) {
-        const order = docSnap.data();
-        document.getElementById('order-details-container').innerHTML = `
-            <div class="card">
-                <h2>Customer Info</h2>
-                <p><strong>Name:</strong> ${order.customerName}</p>
-                <p><strong>Phone:</strong> ${order.phone}</p>
-                <p><strong>Address:</strong> ${order.address}</p>
-                <p><strong>Payment:</strong> ${order.paymentMethod}</p>
-                <p><strong>Delivery Fee:</strong> ৳ ${order.deliveryFee}</p>
-                <p><strong>Total:</strong> ৳ ${order.total}</p>
-                <p><strong>Status:</strong> ${order.status}</p>
-                
-                <h3 style="margin-top: 20px;">Items</h3>
-                <ul>
-                    ${order.items.map(item => `<li>Product ID: ${item.id} (Qty: ${item.qty})</li>`).join('')}
-                </ul>
-            </div>
+let currentFilter = 'Pending';
+
+// Load Orders from Firebase
+async function loadOrders() {
+    const table = document.getElementById('orders-table');
+    if (!table) return;
+
+    const snap = await getDocs(collection(db, "orders"));
+    
+    table.innerHTML = '';
+    
+    snap.forEach(orderDoc => {
+        const order = orderDoc.data();
+        
+        if(currentFilter !== 'All' && order.status !== currentFilter) return;
+
+        const statusClass = order.status === 'Pending' ? 'status-pending' : 
+                            order.status === 'Processing' ? 'status-processing' : 
+                            order.status === 'Completed' ? 'status-completed' : 'status-cancelled';
+
+        table.innerHTML += `
+            <tr>
+                <td>${order.customerName}</td>
+                <td>${order.phone}</td>
+                <td>${order.address}</td>
+                <td>৳ ${order.total}</td>
+                <td><span class="status-badge ${statusClass}">${order.status}</span></td>
+                <td>
+                    <button class="btn btn-edit" onclick="updateOrderStatus('${orderDoc.id}', 'Processing')">Processing</button>
+                    <button class="btn btn-primary" onclick="updateOrderStatus('${orderDoc.id}', 'Completed')">Completed</button>
+                    <button class="btn btn-danger" onclick="updateOrderStatus('${orderDoc.id}', 'Cancelled')">Cancel</button>
+                </td>
+            </tr>
         `;
-    }
+    });
 }
 
-if(document.getElementById('order-details-container')) {
-    loadOrderDetails();
-}
+window.filterOrders = (status) => {
+    currentFilter = status;
+    loadOrders();
+};
+
+window.updateOrderStatus = async (id, newStatus) => {
+    if(confirm(`Are you sure you want to change status to ${newStatus}?`)) {
+        await updateDoc(doc(db, "orders", id), {
+            status: newStatus
+        });
+        loadOrders();
+    }
+};
+
+loadOrders();

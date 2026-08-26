@@ -34,7 +34,7 @@ onSnapshot(collection(db, "products"), (snapshot) => {
         const p = doc.data();
         const stockClass = p.stock === "Available" ? 'in-stock' : 'out-stock';
         
-        // ✅ Full Card Click goes to Details, Add Button stops propagation
+        // ✅ পূর্ণ কার্ড Details Page-এ যাবে, কিন্তু Add Button শুধু Cart-এ যোগ করবে
         container.innerHTML += `
             <div class="product-card" onclick="window.location.href='product-details.html?id=${doc.id}'">
                 <span class="badge ${stockClass}">${p.stock}</span>
@@ -50,9 +50,9 @@ onSnapshot(collection(db, "products"), (snapshot) => {
     });
 });
 
-// ✅ Correct Add to Cart Logic (Prevents Page Change)
+// ✅ Add to Cart logic
 window.addToCart = (event, id) => {
-    event.stopPropagation(); // Prevents card click from firing
+    event.stopPropagation(); // পূর্ণ কার্ড ক্লিক বন্ধ করে
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const item = cart.find(x => x.id === id);
     if(item) item.qty++;

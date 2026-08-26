@@ -12,22 +12,19 @@ if (docSnap.exists()) {
     const stockClass = p.stock === "Available" ? 'in-stock' : 'out-stock';
     
     document.getElementById('detail-container').innerHTML = `
-        <!-- বড় Image (Full Width) -->
-        <img src="${p.image}"
-     alt="${p.name}"
-     style="width:100%; height:600px; object-fit:contain; border-radius:15px; display:block;">
+        <img src="${p.image}" class="detail-img" alt="${p.name}" style="width: 100%; height: 450px; object-fit: cover; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
         
         <div class="detail-info" style="margin-top: 30px;">
             <h1 style="font-size: 36px;">${p.name}</h1>
-            <div class="detail-price">৳ ${p.price}</div>
+            <div class="detail-price">৳ ${p.unitPrices[1]}</div>
             <span class="badge ${stockClass}">${p.stock}</span>
             <p style="margin: 15px 0; color: #555; font-size: 18px;">${p.description || 'High quality product.'}</p>
             
             <div class="unit-selection">
                 <h3>Select Unit</h3>
-                <button class="unit-btn active" onclick="selectUnit(this, '1 ${p.unit}')">1 ${p.unit}</button>
-                <button class="unit-btn" onclick="selectUnit(this, '2 ${p.unit}')">2 ${p.unit}</button>
-                <button class="unit-btn" onclick="selectUnit(this, '5 ${p.unit}')">5 ${p.unit}</button>
+                <button class="unit-btn active" onclick="selectUnit(this, '1', ${p.unitPrices[1]})">1 ${p.unit}</button>
+                <button class="unit-btn" onclick="selectUnit(this, '2', ${p.unitPrices[2]})">2 ${p.unit}</button>
+                <button class="unit-btn" onclick="selectUnit(this, '5', ${p.unitPrices[5]})">5 ${p.unit}</button>
             </div>
             
             <div class="qty-selector">
@@ -43,30 +40,45 @@ if (docSnap.exists()) {
 }
 
 let qty = 1;
-let selectedUnit = '1 kg';
+let selectedUnit = '1';
+let selectedUnitPrice = 0;
 
-window.selectUnit = (btn, unit) => {
+window.selectUnit = (btn, unit, price) => {
     document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     selectedUnit = unit;
+    selectedUnitPrice = price;
+    
+    // দাম আপডেট করা
+    document.getElementById('qty').innerText = '1';
+    qty = 1;
+    document.getElementById('detail-price').innerText = '৳ ' + price;
 };
 
 window.updateQty = (change) => {
     qty += change;
     if(qty < 1) qty = 1;
     document.getElementById('qty').innerText = qty;
+    
+    // মোট দাম দেখানো
+    document.getElementById('detail-price').innerText = '৳ ' + (selectedUnitPrice * qty);
 };
 
 window.addToList = () => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const item = cart.find(x => x.id === productId);
-    if(item) item.qty += qty;
-    else cart.push({ id: productId, qty: qty, unit: selectedUnit });
+    if(item) {
+        item.qty += qty;
+        item.unit = selectedUnit;
+        item.price = selectedUnitPrice;
+    } else {
+        cart.push({ id: productId, qty: qty, unit: selectedUnit, price: selectedUnitPrice });
+    }
     localStorage.setItem('cart', JSON.stringify(cart));
     alert('Added to List!');
 };
 
 window.buyNow = () => {
-    localStorage.setItem('single_product', JSON.stringify({ id: productId, qty: qty, unit: selectedUnit }));
+    localStorage.setItem('single_product', JSON.stringify({ id: productId, qty: qty, unit: selectedUnit, price: selectedUnitPrice }));
     window.location.href = 'checkout.html';
 };

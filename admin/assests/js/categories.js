@@ -1,9 +1,11 @@
-import { db, collection, getDocs, deleteDoc, doc } from './firebase.js';
+// admin/assets/js/categories.js
+import { db, collection, getDocs, addDoc, deleteDoc, doc } from './firebase.js';
 
 async function loadCategories() {
     const table = document.getElementById('categories-table');
+    if (!table) return;
+
     const snap = await getDocs(collection(db, "categories"));
-    
     table.innerHTML = '';
     snap.forEach(doc => {
         const cat = doc.data();
@@ -20,10 +22,34 @@ async function loadCategories() {
 }
 
 window.deleteCategory = async (id) => {
-    if(confirm('Are you sure you want to delete this category?')) {
+    if(confirm('Are you sure?')) {
         await deleteDoc(doc(db, "categories", id));
         loadCategories();
     }
 };
 
-loadCategories()
+// Add Category
+window.saveCategory = async () => {
+    const name = document.getElementById('category-name').value;
+    const image = document.getElementById('category-image').value;
+
+    if(!name || !image) {
+        alert('Please fill all fields!');
+        return;
+    }
+
+    try {
+        await addDoc(collection(db, "categories"), {
+            name: name,
+            image: image
+        });
+        alert('Category added successfully!');
+        window.location.href = 'categories.html';
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+};
+
+if (document.getElementById('categories-table')) {
+    loadCategories();
+}

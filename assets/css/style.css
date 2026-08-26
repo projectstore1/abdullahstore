@@ -372,7 +372,7 @@ html, body {
 
 .detail-img {
     width: 100%;
-    max-height: 500px;
+    max-height: none;
     object-fit: cover;
     border-radius: 15px;
 }

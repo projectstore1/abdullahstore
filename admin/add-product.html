@@ -2,9 +2,9 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product - Admin</title>
-    <link rel="stylesheet" href="assests/css/admin.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
     <div class="sidebar">
@@ -18,30 +18,29 @@
 
     <div class="main-content">
         <h1 class="page-title">Add Product</h1>
-        
         <div class="card">
             <div class="form-group">
                 <label>Product Name</label>
-                <input type="text" id="product-name">
+                <input type="text" id="product-name" placeholder="Enter product name">
             </div>
-            
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" id="product-price" placeholder="Enter price">
+            </div>
             <div class="form-group">
                 <label>Category</label>
                 <select id="product-category">
                     <option value="">Select Category</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Image URL</label>
-                <input type="text" id="product-image">
+                <input type="text" id="product-image" placeholder="https://example.com/image.jpg">
             </div>
-            
             <div class="form-group">
                 <label>Description</label>
                 <textarea id="product-description"></textarea>
             </div>
-
             <div class="form-group">
                 <label>Stock Status</label>
                 <select id="product-stock">
@@ -49,38 +48,18 @@
                     <option value="Stock Out">Stock Out</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Unit Type</label>
-                <select id="product-unit" onchange="changeUnitType()">
+                <select id="product-unit">
                     <option value="KG">KG</option>
                     <option value="Liter">Liter</option>
                     <option value="Piece">Piece</option>
                 </select>
             </div>
-
-            <!-- Unit Options এবং Prices -->
-            <div class="form-group" id="unit-prices-container">
-                <label>Unit Prices</label>
-                
-                <div class="form-group">
-                    <label>1 ${unitType} Price</label>
-                    <input type="number" id="price-1">
-                </div>
-                <div class="form-group">
-                    <label>2 ${unitType} Price</label>
-                    <input type="number" id="price-2">
-                </div>
-                <div class="form-group">
-                    <label>5 ${unitType} Price</label>
-                    <input type="number" id="price-5">
-                </div>
-            </div>
-            
             <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
         </div>
     </div>
 
-    <script type="module" src="assests/js/products.js"></script>
+    <script type="module" src="assets/js/products.js"></script>
 </body>
 </html>

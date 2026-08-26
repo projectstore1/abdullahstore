@@ -7,8 +7,8 @@
     --text-black: #111111;
     --text-gray: #555555;
     
-    --deep-cyan: #00a8cc; /* Deep Cyan for Accents */
-    --deep-purple: #6d28d9; /* Deep Purple for Accents */
+    --deep-cyan: #00a8cc;
+    --deep-purple: #6d28d9;
     --deep-orange: #ff7f11;
     --deep-green: #16a34a;
     --deep-red: #dc2626;
@@ -24,19 +24,21 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ✅ FIXED PC MODE: Always full desktop view, no zoom out needed */
-html, body {
-    width: 100%;
-    min-width: 1200px;
-    overflow-x: auto;
+body {
     background: var(--bg-white);
     color: var(--text-black);
+    width: 100%;
 }
 
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-light); }
-::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--deep-cyan); }
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+    .header { padding: 10px 15px; }
+    .search-box { margin: 0 10px; }
+    .container { padding: 10px; }
+    .product-grid { gap: 10px; }
+    .banner { margin: 15px; padding: 30px 15px; }
+    .footer { padding: 15px; }
+}
 
 /* ==========================================
    HEADER
@@ -171,13 +173,12 @@ html, body {
    CATEGORY CARDS
    ========================================== */
 
-/* ✅ Fixed: Left to Right Flow + No Black Shadow on Images */
 .categories {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     padding-bottom: 20px;
-    justify-content: flex-start; /* Left aligned */
+    justify-content: flex-start;
 }
 
 .cat-card {
@@ -203,7 +204,6 @@ html, body {
     width: 100%;
     height: 100px;
     object-fit: cover;
-    /* ✅ No filter, original clear image */
 }
 
 .cat-card h4 {
@@ -243,12 +243,6 @@ html, body {
     transform: translateY(-8px);
     border-color: var(--deep-purple);
     box-shadow: 0 10px 30px rgba(109, 40, 217, 0.15);
-}
-
-.product-card a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
 }
 
 .badge {
@@ -298,33 +292,6 @@ html, body {
 .p-category {
     font-size: 13px;
     color: var(--text-gray);
-}
-
-/* Add to Cart Button */
-.add-btn {
-    background: var(--text-black);
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 22px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-}
-
-.add-btn:hover {
-    background: var(--deep-cyan);
-    transform: scale(1.2);
-    box-shadow: 0 5px 15px rgba(0, 168, 204, 0.3);
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ==========================================
@@ -506,7 +473,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 /* ==========================================
-   FOOTER
+   FOOTER (Bold Name)
    ========================================== */
 
 .footer {
@@ -515,6 +482,12 @@ input:focus, textarea:focus, select:focus {
     text-align: center;
     padding: 25px;
     margin-top: 60px;
-    font-size: 15px;
+    font-size: 18px;
     color: var(--text-gray);
+}
+
+.footer strong {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--deep-purple);
 }

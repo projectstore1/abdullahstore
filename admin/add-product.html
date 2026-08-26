@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,15 +18,14 @@
 
     <div class="main-content">
         <h1 class="page-title">Add Product</h1>
-        
         <div class="card">
             <div class="form-group">
                 <label>Product Name</label>
-                <input type="text" id="product-name">
+                <input type="text" id="product-name" placeholder="Enter product name">
             </div>
             <div class="form-group">
                 <label>Price</label>
-                <input type="number" id="product-price">
+                <input type="number" id="product-price" placeholder="Enter price">
             </div>
             <div class="form-group">
                 <label>Category</label>
@@ -36,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label>Image URL</label>
-                <input type="text" id="product-image">
+                <input type="text" id="product-image" placeholder="https://example.com/image.jpg">
             </div>
             <div class="form-group">
                 <label>Description</label>
@@ -62,10 +61,5 @@
     </div>
 
     <script type="module" src="assets/js/products.js"></script>
-    <script type="module">
-    import { saveProduct, loadCategoriesForDropdown } from './assets/js/products.js';
-    loadCategoriesForDropdown();
-    window.saveProduct = saveProduct;
-    </script>
 </body>
 </html>

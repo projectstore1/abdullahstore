@@ -13,7 +13,7 @@ if (docSnap.exists()) {
     
     document.getElementById('detail-container').innerHTML = `
         <!-- বড় Image (Full Width) -->
-        <img src="${p.image}" alt="${p.name}" style="width:100%; height:auto;">
+        <img src="${p.image}" alt="${p.name}" style="width: auto; height:auto;">
         
         <div class="detail-info" style="margin-top: 30px;">
             <h1 style="font-size: 36px;">${p.name}</h1>

@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=600">
+    <meta name="viewport" content="width=1200"> <!-- PC Mode Lock -->
     <title>Checkout - Abdullah Store</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -12,27 +12,42 @@
     </header>
 
     <div class="container">
+        <!-- Order Summary: সব প্রোডাক্ট দেখা যাবে -->
         <div class="section-title">Order Summary</div>
+        <div id="order-items" style="background:var(--card); padding:20px; border-radius:15px; margin-bottom:20px;">
+            <!-- JavaScript থেকে প্রোডাক্ট লিস্ট আসবে -->
+        </div>
+
         <div style="background:var(--card); padding:20px; border-radius:15px; margin-bottom:20px;">
             <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
                 <span>Subtotal:</span>
-                <span id="total" style="color:var(--secondary);">৳ 0</span>
+                <span id="subtotal" style="color:var(--deep-orange); font-weight:bold;">৳ 0</span>
             </div>
             <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
                 <span>Delivery Fee:</span>
-                <span>৳ 30</span>
+                <span id="delivery-fee" style="color:var(--text-black);">৳ 30</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px; border-top:1px solid #ddd; padding-top:10px;">
+                <span>Total:</span>
+                <span id="total" style="color:var(--deep-orange); font-weight:900; font-size:24px;">৳ 0</span>
             </div>
         </div>
 
+        <!-- Payment Method -->
         <div class="section-title">Payment Method</div>
-        <div class="payment-method" id="pay-cash" onclick="selectPayment('cash')">💵 Cash Payment</div>
-        <div class="payment-method" id="pay-bkash" onclick="selectPayment('bkash')">📱 Bangla QR Pay</div>
+        <div class="payment-method" id="pay-cash" onclick="selectPayment('cash')">
+            <span style="font-size:24px;">💵</span> Cash Payment
+        </div>
+        <div class="payment-method" id="pay-bkash" onclick="selectPayment('bkash')">
+            <span style="font-size:24px;">📱</span> Bangla QR Pay
+        </div>
 
+        <!-- Customer Information -->
         <div class="section-title" style="margin-top:20px;">Customer Information</div>
         <div style="background:var(--card); padding:20px; border-radius:15px;">
-            <input type="text" id="customer-name" placeholder="Your Name" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px;">
-            <input type="text" id="customer-phone" placeholder="Phone" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px;">
-            <textarea id="customer-address" placeholder="Address" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px;"></textarea>
+            <input type="text" id="customer-name" placeholder="Your Name" style="width:100%; padding:15px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px; color:#111;">
+            <input type="text" id="customer-phone" placeholder="Phone" style="width:100%; padding:15px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px; color:#111;">
+            <textarea id="customer-address" placeholder="Address" style="width:100%; padding:15px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px; color:#111;"></textarea>
         </div>
 
         <button class="btn-primary" style="margin-top:20px;" onclick="placeOrder()">Place Order</button>

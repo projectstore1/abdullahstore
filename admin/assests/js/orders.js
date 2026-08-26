@@ -28,9 +28,10 @@ async function loadOrders() {
                 <td>৳ ${order.total}</td>
                 <td><span class="status-badge ${statusClass}">${order.status}</span></td>
                 <td>
-                    <button class="btn btn-edit" onclick="updateOrderStatus('${orderDoc.id}', 'Processing')">Processing</button>
-                    <button class="btn btn-primary" onclick="updateOrderStatus('${orderDoc.id}', 'Completed')">Completed</button>
-                    <button class="btn btn-danger" onclick="updateOrderStatus('${orderDoc.id}', 'Cancelled')">Cancel</button>
+                    <a href="order-details.html?id=${orderDoc.id}" class="btn btn-edit">See Details</a>
+                    <button class="btn btn-primary" onclick="updateOrderStatus('${orderDoc.id}', 'Processing')">Processing</button>
+                    <button class="btn btn-edit" onclick="updateOrderStatus('${orderDoc.id}', 'Confirm')">Confirm</button>
+                    <button class="btn btn-danger" onclick="updateOrderStatus('${orderDoc.id}', 'Cancel')">Cancel</button>
                 </td>
             </tr>
         `;

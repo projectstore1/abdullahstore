@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdullah Store</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">ABDULLAH STORE</div>
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Search products...">
+        </div>
+        <button class="cart-btn" onclick="location.href='my-list.html'">
+            🛒 My List (<span id="cart-count">0</span>)
+        </button>
+    </header>
+
+    <div class="banner">
+        বিশ্বস্ত মানের নিত্যপ্রয়োজনীয় সব পণ্য
+    </div>
+
+    <div class="container">
+        <div class="section-title">Categories</div>
+        <div class="categories" id="categories-container"></div>
+
+        <div class="section-title" style="margin-top:30px;">All Products</div>
+        <div class="product-grid" id="products-container"></div>
+    </div>
+
+    <footer class="footer">
+        Developed by Abdullah Khan
+    </footer>
+
+    <script type="module" src="assets/js/home.js"></script>
+    <script type="module" src="assets/js/search.js"></script>
+</body>
+</html>

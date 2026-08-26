@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Abdullah Store</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo" onclick="location.href='index.html'">ABDULLAH STORE</div>
+        <button class="cart-btn">🛒 Checkout</button>
+    </header>
+
+    <div class="container">
+        <!-- Order Summary -->
+        <div class="section-title">Order Summary</div>
+        <div id="order-summary" style="background: var(--card); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Products:</span>
+                <span>Cart Items</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Subtotal:</span>
+                <span id="subtotal">৳ 0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Delivery Fee:</span>
+                <span id="delivery-fee">৳ 30</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; border-top: 1px solid #E5E7EB; padding-top: 10px;">
+                <span>Total:</span>
+                <span id="total" style="color: var(--secondary);">৳ 0</span>
+            </div>
+        </div>
+
+        <!-- Payment -->
+        <div class="section-title">Payment Method</div>
+        <div class="payment-method" id="pay-cash" onclick="selectPayment('cash')">
+            💵 Cash Payment
+        </div>
+        <div class="payment-method" id="pay-bkash" onclick="selectPayment('bkash')">
+            📱 Bangla QR Pay
+        </div>
+
+        <!-- Customer Info -->
+        <div class="section-title" style="margin-top: 20px;">Customer Information</div>
+        <div style="background: var(--card); padding: 20px; border-radius: 15px;">
+            <input type="text" id="customer-name" placeholder="Your Name" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px;">
+            <input type="text" id="customer-phone" placeholder="Phone Number" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px;">
+            <textarea id="customer-address" placeholder="Address" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px;"></textarea>
+        </div>
+
+        <button class="btn-primary" style="margin-top: 20px;" onclick="placeOrder()">Place Order</button>
+    </div>
+
+    <footer class="footer">
+        Developed by Abdullah Khan
+    </footer>
+
+    <script type="module" src="assets/js/checkout.js"></script>
+</body>
+</html>

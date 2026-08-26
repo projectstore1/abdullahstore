@@ -1,14 +1,11 @@
 // admin/assets/js/products.js
-
 import { db, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc } from './firebase.js';
 
-// Load Products List
-export async function loadProducts() {
+async function loadProducts() {
     const table = document.getElementById('products-table');
     if (!table) return;
 
     const snap = await getDocs(collection(db, "products"));
-    
     table.innerHTML = '';
     snap.forEach(doc => {
         const p = doc.data();
@@ -29,8 +26,15 @@ export async function loadProducts() {
     });
 }
 
-// Load Categories for Dropdown
-export async function loadCategoriesForDropdown() {
+window.deleteProduct = async (id) => {
+    if(confirm('Are you sure?')) {
+        await deleteDoc(doc(db, "products", id));
+        loadProducts();
+    }
+};
+
+// Load categories for dropdown (on add/edit page)
+async function loadCategoriesForDropdown() {
     const select = document.getElementById('product-category');
     if (!select) return;
 
@@ -41,7 +45,7 @@ export async function loadCategoriesForDropdown() {
 }
 
 // Add Product
-export async function saveProduct() {
+window.saveProduct = async () => {
     const name = document.getElementById('product-name').value;
     const price = parseFloat(document.getElementById('product-price').value);
     const category = document.getElementById('product-category').value;
@@ -70,34 +74,10 @@ export async function saveProduct() {
     } catch (error) {
         alert('Error adding product: ' + error.message);
     }
-}
-
-// Load Product for Edit
-export async function loadProductForEdit() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
-    if (!productId || !document.getElementById('product-id')) return;
-
-    document.getElementById('product-id').value = productId;
-    await loadCategoriesForDropdown();
-
-    const docRef = doc(db, "products", productId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-        const p = docSnap.data();
-        document.getElementById('product-name').value = p.name;
-        document.getElementById('product-price').value = p.price;
-        document.getElementById('product-category').value = p.category;
-        document.getElementById('product-image').value = p.image;
-        document.getElementById('product-description').value = p.description || '';
-        document.getElementById('product-stock').value = p.stock;
-        document.getElementById('product-unit').value = p.unit;
-    }
-}
+};
 
 // Update Product
-export async function updateProduct() {
+window.updateProduct = async () => {
     const productId = document.getElementById('product-id').value;
     const name = document.getElementById('product-name').value;
     const price = parseFloat(document.getElementById('product-price').value);
@@ -127,12 +107,38 @@ export async function updateProduct() {
     } catch (error) {
         alert('Error updating product: ' + error.message);
     }
+};
+
+// Load Edit Data
+async function loadProductForEdit() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    if (!productId || !document.getElementById('product-id')) return;
+
+    document.getElementById('product-id').value = productId;
+    await loadCategoriesForDropdown();
+
+    const docRef = doc(db, "products", productId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        const p = docSnap.data();
+        document.getElementById('product-name').value = p.name;
+        document.getElementById('product-price').value = p.price;
+        document.getElementById('product-category').value = p.category;
+        document.getElementById('product-image').value = p.image;
+        document.getElementById('product-description').value = p.description || '';
+        document.getElementById('product-stock').value = p.stock;
+        document.getElementById('product-unit').value = p.unit;
+    }
 }
 
-// Delete Product
-export async function deleteProduct(id) {
-    if(confirm('Are you sure?')) {
-        await deleteDoc(doc(db, "products", id));
-        loadProducts();
-    }
+if (document.getElementById('products-table')) {
+    loadProducts();
+}
+if (document.getElementById('product-category') && !document.getElementById('product-id')) {
+    loadCategoriesForDropdown();
+}
+if (document.getElementById('product-id')) {
+    loadProductForEdit();
 }

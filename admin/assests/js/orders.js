@@ -3,7 +3,6 @@ import { db, collection, getDocs, updateDoc, doc } from './firebase.js';
 
 let currentFilter = 'Pending';
 
-// Load Orders from Firebase
 async function loadOrders() {
     const table = document.getElementById('orders-table');
     if (!table) return;

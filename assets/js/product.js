@@ -10,21 +10,30 @@ const docSnap = await getDoc(docRef);
 if (docSnap.exists()) {
     const p = docSnap.data();
     const stockClass = p.stock === "Available" ? 'in-stock' : 'out-stock';
+    const basePrice = p.unitPrices ? p.unitPrices[1] : p.price; // যদি unitPrices না থাকে, base price নিবে
     
     document.getElementById('detail-container').innerHTML = `
         <img src="${p.image}" class="detail-img" alt="${p.name}" style="width: 100%; height: 450px; object-fit: cover; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
         
         <div class="detail-info" style="margin-top: 30px;">
             <h1 style="font-size: 36px;">${p.name}</h1>
-            <div class="detail-price">৳ ${p.unitPrices[1]}</div>
+            
+            <div class="detail-price" id="detail-price" style="font-size: 32px; color: var(--deep-orange); font-weight: 900; margin: 15px 0;">
+                ৳ ${basePrice}
+            </div>
+            
             <span class="badge ${stockClass}">${p.stock}</span>
             <p style="margin: 15px 0; color: #555; font-size: 18px;">${p.description || 'High quality product.'}</p>
             
             <div class="unit-selection">
                 <h3>Select Unit</h3>
-                <button class="unit-btn active" onclick="selectUnit(this, '1', ${p.unitPrices[1]})">1 ${p.unit}</button>
-                <button class="unit-btn" onclick="selectUnit(this, '2', ${p.unitPrices[2]})">2 ${p.unit}</button>
-                <button class="unit-btn" onclick="selectUnit(this, '5', ${p.unitPrices[5]})">5 ${p.unit}</button>
+                ${p.unitOptions && p.unitPrices ? p.unitOptions.map(unit => `
+                    <button class="unit-btn ${unit === 1 ? 'active' : ''}" onclick="selectUnit(this, '${unit}', ${p.unitPrices[unit]})">
+                        ${unit} ${p.unit}
+                    </button>
+                `).join('') : `
+                    <button class="unit-btn active" onclick="selectUnit(this, '1', ${basePrice})">1 ${p.unit}</button>
+                `}
             </div>
             
             <div class="qty-selector">
@@ -43,30 +52,36 @@ let qty = 1;
 let selectedUnit = '1';
 let selectedUnitPrice = 0;
 
+// Unit Select করার ফাংশন
 window.selectUnit = (btn, unit, price) => {
     document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    
     selectedUnit = unit;
     selectedUnitPrice = price;
     
-    // দাম আপডেট করা
+    // দাম আপডেট করা (এখনো quantity 1 আছে)
     document.getElementById('qty').innerText = '1';
     qty = 1;
-    document.getElementById('detail-price').innerText = '৳ ' + price;
+    document.getElementById('detail-price').innerText = '৳ ' + (price * qty);
 };
 
+// Quantity আপডেট করার ফাংশন
 window.updateQty = (change) => {
     qty += change;
     if(qty < 1) qty = 1;
     document.getElementById('qty').innerText = qty;
     
-    // মোট দাম দেখানো
-    document.getElementById('detail-price').innerText = '৳ ' + (selectedUnitPrice * qty);
+    // দাম আপডেট করা (Price * Quantity)
+    if (selectedUnitPrice > 0) {
+        document.getElementById('detail-price').innerText = '৳ ' + (selectedUnitPrice * qty);
+    }
 };
 
 window.addToList = () => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const item = cart.find(x => x.id === productId);
+    
     if(item) {
         item.qty += qty;
         item.unit = selectedUnit;

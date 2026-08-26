@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,19 +18,26 @@
 
     <div class="main-content">
         <h1 class="page-title">Settings</h1>
-        
         <div class="card">
             <div class="form-group">
                 <label>Store Name</label>
                 <input type="text" id="store-name">
             </div>
             <div class="form-group">
+                <label>Banner Image URL</label>
+                <input type="text" id="banner-image" placeholder="https://example.com/banner.jpg">
+            </div>
+            <div class="form-group">
+                <label>Banner Text</label>
+                <input type="text" id="banner-text" placeholder="বিশ্বস্ত মানের নিত্যপ্রয়োজনীয় পণ্য">
+            </div>
+            <div class="form-group">
                 <label>Delivery Fee</label>
-                <input type="number" id="delivery-fee">
+                <input type="number" id="delivery-fee" placeholder="30">
             </div>
             <div class="form-group">
                 <label>Bangla QR Image URL</label>
-                <input type="text" id="qr-image">
+                <input type="text" id="qr-image" placeholder="https://example.com/qr.jpg">
             </div>
             <button class="btn btn-primary" onclick="saveSettings()">Save</button>
         </div>

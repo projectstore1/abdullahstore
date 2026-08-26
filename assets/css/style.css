@@ -1,29 +1,20 @@
-/* ==========================================
-   ABDULLAH STORE - PREMIUM BLACK THEME
-   ========================================== */
-
 :root {
-    /* Base Colors */
-    --bg-black: #050505;
-    --bg-dark: #111111;
-    --bg-card: #1a1a1a;
-    --bg-input: #222222;
+    --bg-white: #ffffff;
+    --bg-light: #f4f6f8;
+    --bg-card: #ffffff;
+    --bg-input: #f9fafb;
     
-    /* Text Colors */
-    --text-white: #ffffff;
-    --text-gray: #b0b0b0;
-    --text-dark: #000000;
+    --text-black: #111111;
+    --text-gray: #555555;
     
-    /* Deep Colors */
-    --deep-cyan: #00e5ff;
-    --deep-purple: #a855f7;
+    --deep-cyan: #00a8cc; /* Deep Cyan for Accents */
+    --deep-purple: #6d28d9; /* Deep Purple for Accents */
     --deep-orange: #ff7f11;
-    --deep-green: #22c55e;
-    --deep-red: #ef4444;
+    --deep-green: #16a34a;
+    --deep-red: #dc2626;
     
-    /* Glow Effects */
-    --glow-cyan: 0 0 20px rgba(0, 229, 255, 0.3);
-    --glow-purple: 0 0 20px rgba(168, 85, 247, 0.3);
+    --border-color: #e5e7eb;
+    --shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
 * {
@@ -33,19 +24,18 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Force PC Mode - Always show full Desktop layout */
+/* ✅ FIXED PC MODE: Always full desktop view, no zoom out needed */
 html, body {
     width: 100%;
-    min-width: 1200px; /* PC minimum width force */
+    min-width: 1200px;
     overflow-x: auto;
-    background: var(--bg-black);
-    color: var(--text-white);
+    background: var(--bg-white);
+    color: var(--text-black);
 }
 
-/* Hidden scrollbar for clean look */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-black); }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-light); }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--deep-cyan); }
 
 /* ==========================================
@@ -53,9 +43,9 @@ html, body {
    ========================================== */
 
 .header {
-    background: rgba(17, 17, 17, 0.95);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid var(--border-color);
     padding: 15px 40px;
     display: flex;
     justify-content: space-between;
@@ -63,21 +53,20 @@ html, body {
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: var(--shadow);
 }
 
 .logo {
     font-size: 28px;
     font-weight: 900;
     letter-spacing: 2px;
-    background: linear-gradient(135deg, var(--deep-cyan), var(--deep-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: logoPulse 3s infinite alternate;
+    color: var(--text-black);
+    transition: 0.3s;
 }
 
-@keyframes logoPulse {
-    0% { filter: drop-shadow(0 0 5px var(--deep-cyan)); }
-    100% { filter: drop-shadow(0 0 20px var(--deep-purple)); }
+.logo:hover {
+    color: var(--deep-cyan);
+    transform: scale(1.05);
 }
 
 .search-box {
@@ -87,7 +76,7 @@ html, body {
     display: flex;
     align-items: center;
     background: var(--bg-input);
-    border: 1px solid #333;
+    border: 1px solid var(--border-color);
     border-radius: 30px;
     padding: 10px 20px;
     transition: 0.3s;
@@ -95,7 +84,7 @@ html, body {
 
 .search-box:focus-within {
     border-color: var(--deep-cyan);
-    box-shadow: var(--glow-cyan);
+    box-shadow: 0 0 0 3px rgba(0, 168, 204, 0.1);
 }
 
 .search-box input {
@@ -103,25 +92,26 @@ html, body {
     background: transparent;
     outline: none;
     width: 100%;
-    color: white;
+    color: var(--text-black);
     font-size: 16px;
 }
 
 .cart-btn {
-    background: linear-gradient(135deg, var(--deep-cyan), var(--deep-purple));
-    color: black;
+    background: var(--text-black);
+    color: white;
     border: none;
     padding: 12px 25px;
     border-radius: 30px;
     cursor: pointer;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 15px;
-    transition: 0.3s;
+    transition: all 0.3s;
 }
 
 .cart-btn:hover {
+    background: var(--deep-cyan);
     transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(0, 229, 255, 0.4);
+    box-shadow: 0 5px 15px rgba(0, 168, 204, 0.3);
 }
 
 /* ==========================================
@@ -129,38 +119,22 @@ html, body {
    ========================================== */
 
 .banner {
-    background: linear-gradient(135deg, #000000, #1a1a1a, #2d1b69);
+    background: linear-gradient(135deg, #f9fafb, #ffffff, #f3e8ff);
+    border: 1px solid var(--border-color);
     text-align: center;
-    padding: 60px 40px;
+    padding: 50px 30px;
     margin: 30px 40px;
     border-radius: 20px;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--shadow);
     animation: slideDown 0.8s ease;
 }
 
 .banner h1 {
-    font-size: 40px;
+    font-size: 36px;
     margin-bottom: 15px;
-    background: linear-gradient(135deg, var(--deep-cyan), white);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.banner::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    animation: shine 4s infinite;
-}
-
-@keyframes shine {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    color: var(--text-black);
 }
 
 @keyframes slideDown {
@@ -182,7 +156,7 @@ html, body {
     font-size: 24px;
     font-weight: 800;
     margin-bottom: 20px;
-    color: var(--text-white);
+    color: var(--text-black);
     border-left: 4px solid var(--deep-cyan);
     padding-left: 15px;
     animation: fadeIn 0.5s ease;
@@ -197,46 +171,46 @@ html, body {
    CATEGORY CARDS
    ========================================== */
 
+/* ✅ Fixed: Left to Right Flow + No Black Shadow on Images */
 .categories {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     padding-bottom: 20px;
+    justify-content: flex-start; /* Left aligned */
 }
 
 .cat-card {
-    min-width: 180px;
+    min-width: 150px;
+    max-width: 180px;
     background: var(--bg-card);
-    border: 1px solid #222;
+    border: 1px solid var(--border-color);
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: var(--shadow);
     animation: cardUp 0.5s ease;
 }
 
 .cat-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-5px);
     border-color: var(--deep-cyan);
-    box-shadow: var(--glow-cyan);
+    box-shadow: 0 8px 25px rgba(0, 168, 204, 0.15);
 }
 
 .cat-card img {
     width: 100%;
-    height: 120px;
+    height: 100px;
     object-fit: cover;
-    filter: grayscale(100%);
-    transition: 0.3s;
-}
-
-.cat-card:hover img {
-    filter: grayscale(0%);
+    /* ✅ No filter, original clear image */
 }
 
 .cat-card h4 {
-    padding: 15px;
+    padding: 10px;
     text-align: center;
-    font-size: 16px;
-    color: var(--text-white);
+    font-size: 14px;
+    color: var(--text-black);
 }
 
 @keyframes cardUp {
@@ -254,24 +228,23 @@ html, body {
     gap: 25px;
 }
 
-/* Full Box Click System */
 .product-card {
     background: var(--bg-card);
-    border: 1px solid #222;
+    border: 1px solid var(--border-color);
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
     transition: all 0.4s ease;
+    box-shadow: var(--shadow);
     animation: fadeInUp 0.6s ease;
 }
 
 .product-card:hover {
-    transform: translateY(-10px) scale(1.02);
+    transform: translateY(-8px);
     border-color: var(--deep-purple);
-    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2);
+    box-shadow: 0 10px 30px rgba(109, 40, 217, 0.15);
 }
 
-/* Click anywhere goes to product details */
 .product-card a {
     text-decoration: none;
     color: inherit;
@@ -286,22 +259,22 @@ html, body {
     border-radius: 20px;
     font-size: 12px;
     font-weight: bold;
-    color: black;
+    color: white;
     z-index: 10;
 }
 
-.in-stock { background: var(--deep-green); box-shadow: 0 0 10px rgba(34, 197, 94, 0.4); }
-.out-stock { background: var(--deep-red); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
+.in-stock { background: var(--deep-green); }
+.out-stock { background: var(--deep-red); }
 
 .p-img {
     width: 100%;
-    height: 200px;
+    height: 180px;
     object-fit: cover;
     transition: transform 0.5s;
 }
 
 .product-card:hover .p-img {
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
 .p-info {
@@ -309,16 +282,16 @@ html, body {
 }
 
 .p-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
-    color: var(--text-white);
+    color: var(--text-black);
     margin-bottom: 5px;
 }
 
 .p-price {
     font-size: 20px;
     font-weight: 900;
-    color: var(--deep-cyan);
+    color: var(--deep-orange);
     margin-bottom: 5px;
 }
 
@@ -329,25 +302,24 @@ html, body {
 
 /* Add to Cart Button */
 .add-btn {
-    background: linear-gradient(135deg, var(--deep-cyan), var(--deep-purple));
-    color: black;
+    background: var(--text-black);
+    color: white;
     border: none;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     font-size: 22px;
-    font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
     position: absolute;
     bottom: 15px;
     right: 15px;
-    box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
 }
 
 .add-btn:hover {
-    transform: scale(1.2) rotate(90deg);
-    box-shadow: 0 5px 20px rgba(0, 229, 255, 0.6);
+    background: var(--deep-cyan);
+    transform: scale(1.2);
+    box-shadow: 0 5px 15px rgba(0, 168, 204, 0.3);
 }
 
 @keyframes fadeInUp {
@@ -360,8 +332,8 @@ html, body {
    ========================================== */
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--deep-cyan), var(--deep-purple));
-    color: black;
+    background: var(--text-black);
+    color: white;
     border: none;
     width: 100%;
     padding: 15px;
@@ -373,14 +345,15 @@ html, body {
 }
 
 .btn-primary:hover {
+    background: var(--deep-cyan);
     transform: translateY(-3px);
-    box-shadow: 0 5px 25px rgba(0, 229, 255, 0.5);
+    box-shadow: 0 5px 20px rgba(0, 168, 204, 0.4);
 }
 
 .btn-secondary {
     background: transparent;
-    color: var(--deep-cyan);
-    border: 2px solid var(--deep-cyan);
+    color: var(--text-black);
+    border: 2px solid var(--text-black);
     width: 100%;
     padding: 13px;
     border-radius: 10px;
@@ -392,8 +365,9 @@ html, body {
 }
 
 .btn-secondary:hover {
-    background: var(--deep-cyan);
-    color: black;
+    background: var(--deep-purple);
+    color: white;
+    border-color: var(--deep-purple);
 }
 
 /* ==========================================
@@ -404,16 +378,16 @@ html, body {
     background: var(--bg-card);
     padding: 40px;
     border-radius: 20px;
-    border: 1px solid #222;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
     animation: fadeIn 0.5s ease;
 }
 
 .detail-img {
     width: 100%;
-    max-height: 500px;
+    max-height: 400px;
     object-fit: cover;
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .detail-info {
@@ -422,7 +396,7 @@ html, body {
 
 .detail-price {
     font-size: 32px;
-    color: var(--deep-cyan);
+    color: var(--deep-orange);
     font-weight: 900;
     margin: 15px 0;
 }
@@ -433,10 +407,10 @@ html, body {
 
 .unit-btn {
     background: var(--bg-input);
-    border: 1px solid #333;
+    border: 1px solid var(--border-color);
     padding: 12px 20px;
     border-radius: 8px;
-    color: white;
+    color: var(--text-black);
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -445,8 +419,8 @@ html, body {
 }
 
 .unit-btn.active {
-    background: linear-gradient(135deg, var(--deep-cyan), var(--deep-purple));
-    color: black;
+    background: var(--deep-cyan);
+    color: white;
     border: none;
 }
 
@@ -461,9 +435,9 @@ html, body {
     width: 40px;
     height: 40px;
     background: var(--bg-input);
-    border: 1px solid #333;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    color: white;
+    color: var(--text-black);
     font-size: 20px;
     cursor: pointer;
     transition: 0.3s;
@@ -480,13 +454,14 @@ html, body {
 
 .list-card {
     background: var(--bg-card);
-    border: 1px solid #222;
+    border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 15px;
     margin-bottom: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: var(--shadow);
     transition: 0.3s;
 }
 
@@ -496,7 +471,7 @@ html, body {
 
 .payment-method {
     background: var(--bg-card);
-    border: 2px solid #222;
+    border: 2px solid var(--border-color);
     border-radius: 15px;
     padding: 20px;
     margin-bottom: 15px;
@@ -509,16 +484,15 @@ html, body {
 
 .payment-method.selected {
     border-color: var(--deep-cyan);
-    background: linear-gradient(90deg, rgba(0, 229, 255, 0.1), rgba(168, 85, 247, 0.1));
-    box-shadow: var(--glow-cyan);
+    background: rgba(0, 168, 204, 0.05);
 }
 
 input, textarea, select {
     background: var(--bg-input);
-    border: 1px solid #333;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 15px;
-    color: white;
+    color: var(--text-black);
     width: 100%;
     margin-bottom: 15px;
     font-size: 16px;
@@ -528,7 +502,7 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: var(--deep-cyan);
-    box-shadow: var(--glow-cyan);
+    box-shadow: 0 0 0 3px rgba(0, 168, 204, 0.1);
 }
 
 /* ==========================================
@@ -536,12 +510,11 @@ input:focus, textarea:focus, select:focus {
    ========================================== */
 
 .footer {
-    background: #0a0a0a;
-    border-top: 1px solid #222;
+    background: #f9fafb;
+    border-top: 1px solid var(--border-color);
     text-align: center;
     padding: 25px;
     margin-top: 60px;
     font-size: 15px;
-    color: var(--deep-purple);
-    font-weight: 600;
+    color: var(--text-gray);
 }

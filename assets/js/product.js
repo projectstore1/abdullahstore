@@ -1,8 +1,8 @@
+// assets/js/product.js
 import { db, doc, getDoc } from './firebase.js';
 
 const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get('id');
-const container = document.getElementById('detail-container');
 
 const docRef = doc(db, "products", productId);
 const docSnap = await getDoc(docRef);
@@ -11,13 +11,13 @@ if (docSnap.exists()) {
     const p = docSnap.data();
     const stockClass = p.stock === "Available" ? 'in-stock' : 'out-stock';
     
-    container.innerHTML = `
+    document.getElementById('detail-container').innerHTML = `
         <img src="${p.image}" class="detail-img" alt="${p.name}">
         <div class="detail-info">
             <h1>${p.name}</h1>
             <div class="detail-price">৳ ${p.price}</div>
             <span class="badge ${stockClass}">${p.stock}</span>
-            <p style="margin: 15px 0; color: #6B7280;">Description: ${p.description || 'High quality product.'}</p>
+            <p style="margin:15px 0; color:#6B7280;">${p.description || 'High quality product.'}</p>
             
             <div class="unit-selection">
                 <h3>Select Unit</h3>
@@ -28,7 +28,7 @@ if (docSnap.exists()) {
             
             <div class="qty-selector">
                 <button class="qty-btn" onclick="updateQty(-1)">-</button>
-                <span id="qty" style="font-size: 24px; font-weight: 700;">1</span>
+                <span id="qty" style="font-size:24px; font-weight:700;">1</span>
                 <button class="qty-btn" onclick="updateQty(1)">+</button>
             </div>
             
@@ -50,7 +50,7 @@ window.selectUnit = (btn, unit) => {
 window.updateQty = (change) => {
     qty += change;
     if(qty < 1) qty = 1;
-    document.getElementById('qty').textContent = qty;
+    document.getElementById('qty').innerText = qty;
 };
 
 window.addToList = () => {
@@ -59,7 +59,7 @@ window.addToList = () => {
     if(item) item.qty += qty;
     else cart.push({ id: productId, qty: qty, unit: selectedUnit });
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert('Added to list!');
+    alert('Added to List!');
 };
 
 window.buyNow = () => {

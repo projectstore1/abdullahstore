@@ -1,12 +1,14 @@
+// assets/js/list.js
 import { db, doc, getDoc } from './firebase.js';
 
-const container = document.getElementById('list-container');
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let total = 0;
 
 async function loadCart() {
-    container.innerHTML = '';
+    const container = document.getElementById('list-container');
+    if (!container) return;
     
+    container.innerHTML = '';
     if (cart.length === 0) {
         container.innerHTML = '<p style="text-align:center; color:#6B7280;">Your list is empty!</p>';
         return;
@@ -34,13 +36,13 @@ async function loadCart() {
                             <span>${item.qty}</span>
                             <button onclick="updateQty('${item.id}', 1)">+</button>
                         </div>
-                        <div style="color: var(--secondary); font-weight:bold; margin-top:5px;">৳ ${subtotal}</div>
+                        <div style="color:var(--secondary); font-weight:bold; margin-top:5px;">৳ ${subtotal}</div>
                     </div>
                 </div>
             `;
         }
     }
-    document.getElementById('total-price').textContent = total;
+    document.getElementById('total-price').innerText = total;
 }
 
 window.updateQty = (id, change) => {

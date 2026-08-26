@@ -1,8 +1,14 @@
 // admin/assets/js/firebase.js
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import { 
-    getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, getDoc 
+    getFirestore, 
+    collection, 
+    getDocs, 
+    addDoc, 
+    doc, 
+    getDoc, 
+    updateDoc, 
+    deleteDoc 
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -18,4 +24,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export { db, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, getDoc };
+export { db, collection, getDocs, addDoc, doc, getDoc, updateDoc, deleteDoc };

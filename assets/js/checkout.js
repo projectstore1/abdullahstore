@@ -100,6 +100,23 @@ window.placeOrder = async () => {
     }
     const total = subtotal + deliveryFee;
 
+    // Items Array-এ প্রোডাক্টের সম্পূর্ণ তথ্য
+    let orderItems = [];
+    for (let item of cart) {
+        const docRef = doc(db, "products", item.id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const p = docSnap.data();
+            orderItems.push({
+                productId: item.id,
+                name: p.name,
+                price: p.price,
+                qty: item.qty,
+                image: p.image
+            });
+        }
+    }
+
     try {
         await addDoc(collection(db, "orders"), {
             customerName: name,
@@ -108,7 +125,7 @@ window.placeOrder = async () => {
             paymentMethod: selectedPayment === 'bkash' ? 'Bangla QR Pay' : 'Cash Payment',
             deliveryFee: deliveryFee,
             total: total,
-            items: cart, // প্রোডাক্টের তালিকা
+            items: orderItems, // ✅ প্রোডাক্টের সম্পূর্ণ তথ্য
             status: "Pending"
         });
         

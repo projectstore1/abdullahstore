@@ -1,18 +1,23 @@
-import { db, collection, onSnapshot } from './firebase.js';
+// assets/js/home.js
+import { db, collection, onSnapshot, doc, getDoc } from './firebase.js';
 
-const categoriesContainer = document.getElementById('categories-container');
-const productsContainer = document.getElementById('products-container');
-const cartCount = document.getElementById('cart-count');
+async function loadBanner() {
+    const settingsRef = doc(db, "settings", "general");
+    const docSnap = await getDoc(settingsRef);
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('banner-image').src = data.bannerImage || 'https://via.placeholder.com/1200x300';
+        document.getElementById('banner-text').innerText = data.bannerText || 'বিশ্বস্ত মানের নিত্যপ্রয়োজনীয় পণ্য';
+    }
+}
 
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-updateCartCount();
-
-// Load Categories
 onSnapshot(collection(db, "categories"), (snapshot) => {
-    categoriesContainer.innerHTML = '';
+    const container = document.getElementById('categories-container');
+    if (!container) return;
+    container.innerHTML = '';
     snapshot.forEach((doc) => {
         const cat = doc.data();
-        categoriesContainer.innerHTML += `
+        container.innerHTML += `
             <div class="cat-card" onclick="location.href='category.html?id=${doc.id}'">
                 <img src="${cat.image}" alt="${cat.name}">
                 <h4>${cat.name}</h4>
@@ -21,21 +26,20 @@ onSnapshot(collection(db, "categories"), (snapshot) => {
     });
 });
 
-// Load Products
 onSnapshot(collection(db, "products"), (snapshot) => {
-    productsContainer.innerHTML = '';
+    const container = document.getElementById('products-container');
+    if (!container) return;
+    container.innerHTML = '';
     snapshot.forEach((doc) => {
         const p = doc.data();
         const stockClass = p.stock === "Available" ? 'in-stock' : 'out-stock';
-        
-        productsContainer.innerHTML += `
+        container.innerHTML += `
             <div class="product-card">
                 <span class="badge ${stockClass}">${p.stock}</span>
                 <img src="${p.image}" class="p-img" alt="${p.name}">
                 <div class="p-info">
                     <div class="p-name">${p.name}</div>
                     <div class="p-price">৳ ${p.price}</div>
-                    <div style="font-size: 12px; color: #6B7280;">Unit: ${p.unit}</div>
                 </div>
                 <div class="actions">
                     <button class="add-btn" onclick="addToCart('${doc.id}')">+</button>
@@ -46,16 +50,13 @@ onSnapshot(collection(db, "products"), (snapshot) => {
     });
 });
 
-// Add to Cart
 window.addToCart = (id) => {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const item = cart.find(x => x.id === id);
     if(item) item.qty++;
     else cart.push({ id: id, qty: 1 });
     localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-    alert('Product added to list!');
+    alert('Added to List!');
 };
 
-function updateCartCount() {
-    cartCount.textContent = cart.reduce((a, b) => a + b.qty, 0);
-}
+loadBanner();

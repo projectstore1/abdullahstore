@@ -1,8 +1,8 @@
-
+// assets/js/checkout.js
 import { db, doc, getDoc, collection, addDoc } from './firebase.js';
 
 // 👇 এখানে আপনার Google Apps Script URL দিন
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxyAHRk4Qbg7LLO16mEMmTd7CeBBwHTameh1nCzoGlwLf_U0lHbWQLyXKUY9esWg-IXw/exec'; // যেমন: https://script.google.com/macros/s/XXXX/exec
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxyAHRk4Qbg7LLO16mEMmTd7CeBBwHTameh1nCzoGlwLf_U0lHbWQLyXKUY9esWg-IXw/exec';
 
 // Cart বা Single Product থেকে ডাটা নেওয়া
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -121,7 +121,7 @@ window.placeOrder = async () => {
     }
 
     try {
-        // Firebase-এ অর্ডার সাবমিট করা
+        // ✅ Firebase-এ অর্ডার সাবমিট করা
         await addDoc(collection(db, "orders"), {
             customerName: name,
             phone: phone,
@@ -133,46 +133,31 @@ window.placeOrder = async () => {
             status: "Pending"
         });
 
-        // ✅ ইমেইল পাঠানোর জন্য Apps Script-এ ফর্ম সাবমিট করা
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = SCRIPT_URL;
-        form.target = '_blank'; // ব্যাকগ্রাউন্ডে কাজ করবে (নতুন ট্যাব খুলবে না)
-        form.style.display = 'none';
-        
-        // ডাটা ফিল্ডগুলো যোগ করা
-        const fields = {
-            customerName: name,
-            phone: phone,
-            address: address,
-            paymentMethod: selectedPayment === 'bkash' ? 'Bangla QR Pay' : 'Cash Payment',
-            deliveryFee: deliveryFee,
-            total: total
-        };
-        
-        for (const key in fields) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = fields[key];
-            form.appendChild(input);
+        // ✅ ইমেইল পাঠানোর জন্য fetch() ব্যবহার করা (No Redirect, No New Tab)
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    customerName: name,
+                    phone: phone,
+                    address: address,
+                    paymentMethod: selectedPayment === 'bkash' ? 'Bangla QR Pay' : 'Cash Payment',
+                    deliveryFee: deliveryFee,
+                    total: total,
+                    items: orderItems
+                })
+            });
+            console.log('✅ Email sent successfully.');
+        } catch (emailError) {
+            console.error('❌ Email not sent:', emailError);
         }
-        
-        // Items গুলো JSON স্ট্রিং হিসেবে পাঠানো
-        const itemsInput = document.createElement('input');
-        itemsInput.type = 'hidden';
-        itemsInput.name = 'items';
-        itemsInput.value = JSON.stringify(orderItems);
-        form.appendChild(itemsInput);
-        
-        document.body.appendChild(form);
-        form.submit();
-        document.body.removeChild(form);
-        
-        // সফল হলে Cart খালি করা
+
+        // ✅ সফল হলে Cart খালি করা
         localStorage.removeItem('cart');
         localStorage.removeItem('single_product');
         
+        // ✅ সরাসরি Thanks Page-এ যাওয়া
         window.location.href = 'thanks.html';
     } catch (error) {
         alert('Error placing order: ' + error.message);

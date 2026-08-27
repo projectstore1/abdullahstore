@@ -1,8 +1,8 @@
-// assets/js/checkout.js
+
 import { db, doc, getDoc, collection, addDoc } from './firebase.js';
 
 // 👇 এখানে আপনার Google Apps Script URL দিন
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxV5N8Wb8zEUAPy5rsCBtYlbxUqcoPQ7SuS0V5TNM4tB_Owgx6GRVcNHzzG-JwhjnMO/exec'; // যেমন: https://script.google.com/macros/s/XXXX/exec
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxyAHRk4Qbg7LLO16mEMmTd7CeBBwHTameh1nCzoGlwLf_U0lHbWQLyXKUY9esWg-IXw/exec'; // যেমন: https://script.google.com/macros/s/XXXX/exec
 
 // Cart বা Single Product থেকে ডাটা নেওয়া
 let cart = JSON.parse(localStorage.getItem('cart')) || [];

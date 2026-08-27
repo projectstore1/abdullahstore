@@ -1,6 +1,9 @@
 // assets/js/checkout.js
 import { db, doc, getDoc, collection, addDoc } from './firebase.js';
 
+// 👇 এখানে আপনার Google Apps Script URL দিন
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLAMqGDihCix_e-FTGC9dQnSWnSE3QIXc3xdrLkII7b6psXuMofgPH_1MT3g_fc2_0/exec';
+
 // Cart বা Single Product থেকে ডাটা নেওয়া
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let singleProduct = JSON.parse(localStorage.getItem('single_product'));
@@ -78,6 +81,33 @@ window.selectPayment = (method) => {
     }
 };
 
+// ✅ নতুন অর্ডার পেলে ইমেইল পাঠানোর ফাংশন
+async function sendOrderEmail(order) {
+    try {
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                customerName: order.customerName,
+                phone: order.phone,
+                address: order.address,
+                paymentMethod: order.paymentMethod,
+                total: order.total,
+                deliveryFee: order.deliveryFee,
+                items: order.items
+            })
+        });
+        const result = await response.json();
+        if (result.status === 'success') {
+            console.log('✅ Email sent successfully.');
+        } else {
+            console.error('❌ Failed to send email:', result.message);
+        }
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+}
+
 // Order Place করার ফাংশন
 window.placeOrder = async () => {
     const name = document.getElementById('customer-name').value;
@@ -118,6 +148,7 @@ window.placeOrder = async () => {
     }
 
     try {
+        // Firebase-এ অর্ডার সাবমিট করা
         await addDoc(collection(db, "orders"), {
             customerName: name,
             phone: phone,
@@ -125,8 +156,19 @@ window.placeOrder = async () => {
             paymentMethod: selectedPayment === 'bkash' ? 'Bangla QR Pay' : 'Cash Payment',
             deliveryFee: deliveryFee,
             total: total,
-            items: orderItems, // ✅ প্রোডাক্টের সম্পূর্ণ তথ্য
+            items: orderItems,
             status: "Pending"
+        });
+
+        // ✅ অর্ডার সাবমিট হওয়ার সাথে সাথেই ইমেইল পাঠানো
+        await sendOrderEmail({
+            customerName: name,
+            phone: phone,
+            address: address,
+            paymentMethod: selectedPayment === 'bkash' ? 'Bangla QR Pay' : 'Cash Payment',
+            deliveryFee: deliveryFee,
+            total: total,
+            items: orderItems
         });
         
         // সফল হলে Cart খালি করা

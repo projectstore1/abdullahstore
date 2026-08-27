@@ -2,7 +2,7 @@
 import { db, doc, getDoc, collection, addDoc } from './firebase.js';
 
 // 👇 এখানে আপনার Google Apps Script URL দিন (শুধু URL, কোনো ফর্ম অ্যাকশন নেই)
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxOnqtjesOPPXhwntQOC_ISblI-gB4xgE-nezWPgfq_SGM6tHGQn_4g9z2H9qyLH1oP/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylu6YnrotmtQLMaJYaFsdbKC9_vD4SfrLLKeIa7t06S_SN2a_iebWic4kcdVLfEua22w/exec';
 
 // Cart বা Single Product থেকে ডাটা নেওয়া
 let cart = JSON.parse(localStorage.getItem('cart')) || [];

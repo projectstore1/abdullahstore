@@ -1,37 +1,7 @@
 // admin/assests/js/orders.js
 import { db, collection, getDocs, updateDoc, doc } from './firebase.js';
 
-// ✅ এখানে আপনার Google Apps Script URL দিন
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLAMqGDihCix_e-FTGC9dQnSWnSE3QIXc3xdrLkII7b6psXuMofgPH_1MT3g_fc2_0/exec';
-
 let currentFilter = 'Pending';
-
-// ✅ নতুন অর্ডার পেলে ইমেইল পাঠানোর ফাংশন
-async function sendOrderEmail(order) {
-  try {
-    const response = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        customerName: order.customerName,
-        phone: order.phone,
-        address: order.address,
-        paymentMethod: order.paymentMethod,
-        total: order.total,
-        deliveryFee: order.deliveryFee,
-        items: order.items
-      })
-    });
-    const result = await response.json();
-    if (result.status === 'success') {
-      console.log('✅ Email sent successfully.');
-    } else {
-      console.error('❌ Failed to send email:', result.message);
-    }
-  } catch (error) {
-    console.error('Error sending email:', error);
-  }
-}
 
 async function loadOrders() {
     const table = document.getElementById('orders-table');
@@ -44,20 +14,13 @@ async function loadOrders() {
     snap.forEach(orderDoc => {
         const order = orderDoc.data();
         
-        // ✅ নতুন Pending অর্ডার পেলে Email পাঠানো হবে (একবারই)
-        if (order.status === 'Pending' && !order.emailSent) {
-            sendOrderEmail(order);
-            // ইমেইল পাঠানো হয়েছে মার্ক করা
-            updateDoc(doc(db, "orders", orderDoc.id), { emailSent: true });
-        }
-        
         if(currentFilter !== 'All' && order.status !== currentFilter) return;
 
         const statusClass = order.status === 'Pending' ? 'status-pending' : 
                             order.status === 'Processing' ? 'status-processing' : 
                             order.status === 'Completed' ? 'status-completed' : 'status-cancelled';
 
-        table.innerHTML += `
+        table.innerHTML += 
             <tr>
                 <td>${order.customerName}</td>
                 <td>${order.phone}</td>
@@ -71,7 +34,7 @@ async function loadOrders() {
                     <button class="btn btn-danger" onclick="updateOrderStatus('${orderDoc.id}', 'Cancel')">Cancel</button>
                 </td>
             </tr>
-        `;
+        ;
     });
 }
 
@@ -81,7 +44,7 @@ window.filterOrders = (status) => {
 };
 
 window.updateOrderStatus = async (id, newStatus) => {
-    if(confirm(`Are you sure you want to change status to ${newStatus}?`)) {
+    if(confirm(Are you sure you want to change status to ${newStatus}?)) {
         await updateDoc(doc(db, "orders", id), {
             status: newStatus
         });

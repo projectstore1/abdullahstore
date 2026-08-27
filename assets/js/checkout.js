@@ -2,7 +2,7 @@
 import { db, doc, getDoc, collection, addDoc } from './firebase.js';
 
 // 👇 এখানে আপনার Google Apps Script URL দিন
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylu6YnrotmtQLMaJYaFsdbKC9_vD4SfrLLKeIa7t06S_SN2a_iebWic4kcdVLfEua22w/exec'; // যেমন: https://script.google.com/macros/s/XXXX/exec
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxV5N8Wb8zEUAPy5rsCBtYlbxUqcoPQ7SuS0V5TNM4tB_Owgx6GRVcNHzzG-JwhjnMO/exec';
 
 // Cart বা Single Product থেকে ডাটা নেওয়া
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -81,6 +81,33 @@ window.selectPayment = (method) => {
     }
 };
 
+// ✅ নতুন অর্ডার পেলে ইমেইল পাঠানোর ফাংশন
+async function sendOrderEmail(order) {
+    try {
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                customerName: order.customerName,
+                phone: order.phone,
+                address: order.address,
+                paymentMethod: order.paymentMethod,
+                total: order.total,
+                deliveryFee: order.deliveryFee,
+                items: order.items
+            })
+        });
+        const result = await response.json();
+        if (result.status === 'success') {
+            console.log('✅ Email sent successfully.');
+        } else {
+            console.error('❌ Failed to send email:', result.message);
+        }
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+}
+
 // Order Place করার ফাংশন
 window.placeOrder = async () => {
     const name = document.getElementById('customer-name').value;
@@ -133,41 +160,16 @@ window.placeOrder = async () => {
             status: "Pending"
         });
 
-        // ✅ ইমেইল পাঠানোর জন্য Apps Script-এ ফর্ম সাবমিট করা
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = SCRIPT_URL;
-        form.target = '_blank'; // ব্যাকগ্রাউন্ডে কাজ করবে (নতুন ট্যাব খুলবে না)
-        form.style.display = 'none';
-        
-        // ডাটা ফিল্ডগুলো যোগ করা
-        const fields = {
+        // ✅ অর্ডার সাবমিট হওয়ার সাথে সাথেই ইমেইল পাঠানো
+        await sendOrderEmail({
             customerName: name,
             phone: phone,
             address: address,
             paymentMethod: selectedPayment === 'bkash' ? 'Bangla QR Pay' : 'Cash Payment',
             deliveryFee: deliveryFee,
-            total: total
-        };
-        
-        for (const key in fields) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = fields[key];
-            form.appendChild(input);
-        }
-        
-        // Items গুলো JSON স্ট্রিং হিসেবে পাঠানো
-        const itemsInput = document.createElement('input');
-        itemsInput.type = 'hidden';
-        itemsInput.name = 'items';
-        itemsInput.value = JSON.stringify(orderItems);
-        form.appendChild(itemsInput);
-        
-        document.body.appendChild(form);
-        form.submit();
-        document.body.removeChild(form);
+            total: total,
+            items: orderItems
+        });
         
         // সফল হলে Cart খালি করা
         localStorage.removeItem('cart');

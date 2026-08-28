@@ -172,7 +172,7 @@ window.placeOrder = async () => {
         localStorage.removeItem('cart');
         localStorage.removeItem('single_product');
         
-        // ✅ Thanks Page-এ যাওয়া (form.submit() এর পরে)
+        // ✅ Thanks Page-এ যাওয়া
         window.location.href = 'thanks.html';
     } catch (error) {
         alert('Error placing order: ' + error.message);

@@ -2,7 +2,7 @@
 import { db, collection, getDocs, updateDoc, doc } from './firebase.js';
 
 // ✅ এখানে আপনার Google Apps Script URL দিন
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzpiBT6c0sK1mmf_AhBkS_XH9-TIrCZVLxDKEgDhmddJg6tbwOH4dEdm_oh1YWZ6D1p/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxyAHRk4Qbg7LLO16mEMmTd7CeBBwHTameh1nCzoGlwLf_U0lHbWQLyXKUY9esWg-IXw/exec';
 
 let currentFilter = 'Pending';
 

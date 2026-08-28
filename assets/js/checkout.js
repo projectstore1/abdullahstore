@@ -1,8 +1,7 @@
-// assets/js/checkout.js
 import { db, doc, getDoc, collection, addDoc } from './firebase.js';
 
 // 👇 এখানে আপনার Google Apps Script URL দিন
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzpiBT6c0sK1mmf_AhBkS_XH9-TIrCZVLxDKEgDhmddJg6tbwOH4dEdm_oh1YWZ6D1p/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzpiBT6c0sK1mmf_AhBkS_XH9-TIrCZVLxDKEgDhmddJg6tbwOH4dEdm_oh1YWZ6D1p/exec'; // যেমন: https://script.google.com/macros/s/XXXX/exec
 
 // Cart বা Single Product থেকে ডাটা নেওয়া
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -47,7 +46,7 @@ async function loadOrderSummary() {
             const subtotalItem = p.price * item.qty;
             subtotal += subtotalItem;
             
-            container.innerHTML += `
+            container.innerHTML += 
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #ddd; padding-bottom:10px;">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <img src="${p.image}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">
@@ -58,7 +57,7 @@ async function loadOrderSummary() {
                     </div>
                     <div style="font-weight:bold; color:#111;">৳ ${subtotalItem}</div>
                 </div>
-            `;
+            ;
         }
     }
     
@@ -87,7 +86,7 @@ window.placeOrder = async () => {
     const phone = document.getElementById('customer-phone').value;
     const address = document.getElementById('customer-address').value;
 
-    if (!name || !phone || !address) {
+    if (!name  !phone  !address) {
         alert('সব তথ্য পূরণ করুন!');
         return;
     }
@@ -121,7 +120,7 @@ window.placeOrder = async () => {
     }
 
     try {
-        // ✅ Firebase-এ অর্ডার সাবমিট করা
+        // Firebase-এ অর্ডার সাবমিট করা
         await addDoc(collection(db, "orders"), {
             customerName: name,
             phone: phone,
@@ -133,12 +132,14 @@ window.placeOrder = async () => {
             status: "Pending"
         });
 
-        // ✅ ইমেইল পাঠানোর জন্য form.submit() ব্যবহার করা (নতুন ট্যাব খুলবে, তারপর Redirect হবে)
+        // ✅ ইমেইল পাঠানোর জন্য Apps Script-এ ফর্ম সাবমিট করা
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = SCRIPT_URL;
+        form.target = '_blank'; // ব্যাকগ্রাউন্ডে কাজ করবে (নতুন ট্যাব খুলবে না)
         form.style.display = 'none';
         
+        // ডাটা ফিল্ডগুলো যোগ করা
         const fields = {
             customerName: name,
             phone: phone,
@@ -167,11 +168,10 @@ window.placeOrder = async () => {
         form.submit();
         document.body.removeChild(form);
         
-        // ✅ সফল হলে Cart খালি করা
+        // সফল হলে Cart খালি করা
         localStorage.removeItem('cart');
         localStorage.removeItem('single_product');
         
-        // ✅ Thanks Page-এ যাওয়া (form.submit() এর পরে)
         window.location.href = 'thanks.html';
     } catch (error) {
         alert('Error placing order: ' + error.message);

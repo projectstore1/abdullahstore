@@ -2,7 +2,7 @@
 import { db, doc, getDoc, collection, addDoc } from './firebase.js';
 
 // 👇 এখানে আপনার Google Apps Script URL দিন
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxyAHRk4Qbg7LLO16mEMmTd7CeBBwHTameh1nCzoGlwLf_U0lHbWQLyXKUY9esWg-IXw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzpiBT6c0sK1mmf_AhBkS_XH9-TIrCZVLxDKEgDhmddJg6tbwOH4dEdm_oh1YWZ6D1p/exec';
 
 // Cart বা Single Product থেকে ডাটা নেওয়া
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -133,31 +133,45 @@ window.placeOrder = async () => {
             status: "Pending"
         });
 
-        // ✅ ইমেইল পাঠানোর জন্য fetch() ব্যবহার করা (No Redirect, No New Tab)
-        try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    customerName: name,
-                    phone: phone,
-                    address: address,
-                    paymentMethod: selectedPayment === 'bkash' ? 'Bangla QR Pay' : 'Cash Payment',
-                    deliveryFee: deliveryFee,
-                    total: total,
-                    items: orderItems
-                })
-            });
-            console.log('✅ Email sent successfully.');
-        } catch (emailError) {
-            console.error('❌ Email not sent:', emailError);
+        // ✅ ইমেইল পাঠানোর জন্য form.submit() ব্যবহার করা (নতুন ট্যাব খুলবে, তারপর Redirect হবে)
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = SCRIPT_URL;
+        form.style.display = 'none';
+        
+        const fields = {
+            customerName: name,
+            phone: phone,
+            address: address,
+            paymentMethod: selectedPayment === 'bkash' ? 'Bangla QR Pay' : 'Cash Payment',
+            deliveryFee: deliveryFee,
+            total: total
+        };
+        
+        for (const key in fields) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = fields[key];
+            form.appendChild(input);
         }
-
+        
+        // Items গুলো JSON স্ট্রিং হিসেবে পাঠানো
+        const itemsInput = document.createElement('input');
+        itemsInput.type = 'hidden';
+        itemsInput.name = 'items';
+        itemsInput.value = JSON.stringify(orderItems);
+        form.appendChild(itemsInput);
+        
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+        
         // ✅ সফল হলে Cart খালি করা
         localStorage.removeItem('cart');
         localStorage.removeItem('single_product');
         
-        // ✅ সরাসরি Thanks Page-এ যাওয়া
+        // ✅ Thanks Page-এ যাওয়া (form.submit() এর পরে)
         window.location.href = 'thanks.html';
     } catch (error) {
         alert('Error placing order: ' + error.message);

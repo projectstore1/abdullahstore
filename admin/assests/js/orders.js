@@ -7,9 +7,12 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxyAHRk4Qbg7LLO16mE
 let currentFilter = 'Pending';
 
 // ✅ নতুন অর্ডার পেলে ইমেইল পাঠানোর ফাংশন
-async function sendOrderEmail(order) {
+async function sendOrderEmail(order, orderId) {
   try {
-    const response = await fetch(SCRIPT_URL, {
+    // Admin Order Details Page এর লিংক
+    const orderLink = `${window.location.origin}/admin/order-details.html?id=${orderId}`;
+    
+    await fetch(SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -19,17 +22,13 @@ async function sendOrderEmail(order) {
         paymentMethod: order.paymentMethod,
         total: order.total,
         deliveryFee: order.deliveryFee,
-        items: order.items
+        items: order.items,
+        orderLink: orderLink // Order Page link
       })
     });
-    const result = await response.json();
-    if (result.status === 'success') {
-      console.log('✅ Email sent successfully.');
-    } else {
-      console.error('❌ Failed to send email:', result.message);
-    }
+    console.log('✅ Email sent successfully.');
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('❌ Email not sent:', error);
   }
 }
 
@@ -46,7 +45,7 @@ async function loadOrders() {
         
         // ✅ নতুন Pending অর্ডার পেলে Email পাঠানো হবে (একবারই)
         if (order.status === 'Pending' && !order.emailSent) {
-            sendOrderEmail(order);
+            sendOrderEmail(order, orderDoc.id);
             // ইমেইল পাঠানো হয়েছে মার্ক করা
             updateDoc(doc(db, "orders", orderDoc.id), { emailSent: true });
         }
@@ -57,7 +56,7 @@ async function loadOrders() {
                             order.status === 'Processing' ? 'status-processing' : 
                             order.status === 'Completed' ? 'status-completed' : 'status-cancelled';
 
-        table.innerHTML += 
+        table.innerHTML += `
             <tr>
                 <td>${order.customerName}</td>
                 <td>${order.phone}</td>
@@ -71,7 +70,7 @@ async function loadOrders() {
                     <button class="btn btn-danger" onclick="updateOrderStatus('${orderDoc.id}', 'Cancel')">Cancel</button>
                 </td>
             </tr>
-        ;
+        `;
     });
 }
 
@@ -81,7 +80,7 @@ window.filterOrders = (status) => {
 };
 
 window.updateOrderStatus = async (id, newStatus) => {
-    if(confirm(Are you sure you want to change status to ${newStatus}?)) {
+    if(confirm(`Are you sure you want to change status to ${newStatus}?`)) {
         await updateDoc(doc(db, "orders", id), {
             status: newStatus
         });

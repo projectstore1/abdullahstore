@@ -8,26 +8,62 @@
     <style>
         .thanks-box {
             text-align: center;
-            padding: 60px 20px;
+            padding: 70px 30px;
             background: var(--card);
-            border-radius: 20px;
+            border-radius: 25px;
             margin-top: 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border: 1px solid var(--border);
         }
-        .icon { font-size: 80px; color: var(--primary); }
-        h1 { color: var(--text); margin: 20px 0; font-size: 36px; font-weight: 900; }
-        h3 { color: var(--text); font-size: 22px; }
-        .brand { color: var(--primary); font-weight: 900; font-size: 24px; }
-        p { font-size: 18px; color: var(--text-gray); }
+        .icon { font-size: 100px; color: var(--primary); }
+        h1 { color: var(--text); margin: 25px 0; font-size: 45px; font-weight: 900; }
+        h3 { color: var(--text); font-size: 30px; }
+        .brand { color: var(--primary); font-weight: 900; font-size: 30px; }
+        p { font-size: 22px; color: var(--text-gray); }
         .success-msg {
             background: #f0fdf4;
             border: 1px solid #dcfce7;
             color: #16a34a;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 25px;
             font-weight: bold;
+            font-size: 20px;
+            text-align: left;
+        }
+        .contact-btn {
+            background: var(--deep-cyan);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 24px;
+            font-weight: 900;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .contact-btn:hover {
+            background: var(--deep-purple);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 168, 204, 0.3);
+        }
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 24px;
+            font-weight: 900;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.3);
         }
     </style>
 </head>
@@ -47,11 +83,24 @@
             
             <div class="success-msg">
                 ✅ আপনার অর্ডার পেয়েছি! <br>
-                কিছুক্ষণের মধ্যে আপনাকে কল করে অর্ডার কনফার্ম করা হবে। <br>
-                অর্ডার কনফার্ম করার ১/২ ঘণ্টার মধ্যে আপনার পণ্য পৌঁছে যাবে ইনশাআল্লাহ!
+                <strong>📞 কল করুন অথবা 💬 WhatsApp-এ মেসেজ দিয়ে অর্ডার কনফার্ম করুন।</strong> <br><br>
+                অর্ডার কনফার্ম করার পর ৩০ মিনিট থেকে ১ ঘণ্টার মধ্যে আপনার পণ্য পৌঁছে যাবে ইনশাআল্লাহ! <br><br>
+                
+                <strong>📞 কল করুন:</strong> <a href="tel:01796693813" style="color:#16a34a;">01796693813</a>
+                <br>
+                <strong>💬 WhatsApp:</strong> <a href="https://wa.me/8801796693813" style="color:#16a34a;">WhatsApp-এ মেসেজ দিন</a>
+                <br>
+                <strong>⚠️ জরুরি:</strong> অর্ডার কনফার্ম করতে না পারলে আপনার অর্ডারটি বাতিল হয়ে যাবে।
             </div>
             
-            <button class="btn-primary" style="margin-top:30px; max-width:300px; margin-left:auto; margin-right:auto; display:block;" onclick="location.href='index.html'">হোমে ফিরে যান</button>
+            <br>
+            <a href="tel:01796693813" class="contact-btn">📞 কল করুন</a>
+            
+            <br><br>
+            <a href="https://wa.me/8801796693813?text=আমার%20অর্ডার%20কনফার্ম%20করুন।" class="whatsapp-btn" target="_blank">💬 WhatsApp-এ মেসেজ দিন</a>
+            
+            <br><br>
+            <button class="btn-primary" style="margin-top:20px; max-width:300px; margin-left:auto; margin-right:auto; display:block;" onclick="location.href='Index.html'">হোমে ফিরে যান</button>
         </div>
     </div>
 

@@ -13,35 +13,62 @@ if (docSnap.exists()) {
     let itemsHtml = '';
     if (order.items && Array.isArray(order.items)) {
         itemsHtml = order.items.map(item => `
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #ddd; padding:10px 0;">
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <img src="${item.image}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">
+            <div class="item-row">
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <img src="${item.image}" class="item-img" alt="${item.name}">
                     <div>
-                        <strong>${item.name}</strong>
-                        <div style="font-size:14px; color:#555;">${item.qty} x ৳ ${item.price}</div>
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-qty">${item.qty} x ৳ ${item.price}</div>
                     </div>
                 </div>
-                <div style="font-weight:bold;">৳ ${item.price * item.qty}</div>
+                <div class="item-price">৳ ${item.price * item.qty}</div>
             </div>
         `).join('');
     } else {
-        itemsHtml = '<p style="text-align:center; color:red;">No items found in this order!</p>';
+        itemsHtml = '<p style="text-align:center; color:red; font-size:18px;">No items found in this order!</p>';
     }
 
     document.getElementById('order-details-container').innerHTML = `
         <div class="card">
             <h2>Customer Info</h2>
-            <p><strong>Name:</strong> ${order.customerName}</p>
-            <p><strong>Phone:</strong> ${order.phone}</p>
-            <p><strong>Address:</strong> ${order.address}</p>
-            <p><strong>Payment:</strong> ${order.paymentMethod}</p>
-            <p><strong>Delivery Fee:</strong> ৳ ${order.deliveryFee}</p>
-            <p><strong>Total:</strong> ৳ ${order.total}</p>
-            <p><strong>Status:</strong> ${order.status}</p>
-            
-            <h3 style="margin-top: 20px;">Items</h3>
-            <div>
+            <div class="customer-info">
+                <div class="info-item">
+                    <p>Name</p>
+                    <strong>${order.customerName}</strong>
+                </div>
+                <div class="info-item">
+                    <p>Phone</p>
+                    <strong>${order.phone}</strong>
+                </div>
+                <div class="info-item">
+                    <p>Address</p>
+                    <strong>${order.address}</strong>
+                </div>
+                <div class="info-item">
+                    <p>Payment</p>
+                    <strong>${order.paymentMethod}</strong>
+                </div>
+                <div class="info-item">
+                    <p>Delivery Fee</p>
+                    <strong>৳ ${order.deliveryFee}</strong>
+                </div>
+                <div class="info-item">
+                    <p>Status</p>
+                    <strong>${order.status}</strong>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Items</h2>
+            <div class="items-table">
                 ${itemsHtml}
+            </div>
+            <div class="summary">
+                <div class="summary-item">
+                    <p>Total</p>
+                    <strong>৳ ${order.total}</strong>
+                </div>
             </div>
         </div>
     `;

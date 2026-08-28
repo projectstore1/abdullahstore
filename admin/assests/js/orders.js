@@ -1,36 +1,28 @@
 // admin/assests/js/orders.js
 import { db, collection, getDocs, updateDoc, doc } from './firebase.js';
 
-// ✅ এখানে আপনার Google Apps Script URL দিন
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxyAHRk4Qbg7LLO16mEMmTd7CeBBwHTameh1nCzoGlwLf_U0lHbWQLyXKUY9esWg-IXw/exec';
+// 👇 এখানে আপনার Google Apps Script URL দিন (শুধু URL)
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwL6TW7yQFU1VU_A-2qZoSKAPcs6HseyX3AawUxw_VQSpJdOJADobVyzd2fWZH2H80z/exec';
 
 let currentFilter = 'Pending';
 
-// ✅ নতুন অর্ডার পেলে ইমেইল পাঠানোর ফাংশন
-async function sendOrderEmail(order) {
-  try {
-    const response = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        customerName: order.customerName,
-        phone: order.phone,
-        address: order.address,
-        paymentMethod: order.paymentMethod,
-        total: order.total,
-        deliveryFee: order.deliveryFee,
-        items: order.items
-      })
-    });
-    const result = await response.json();
-    if (result.status === 'success') {
-      console.log('✅ Email sent successfully.');
-    } else {
-      console.error('❌ Failed to send email:', result.message);
+// ✅ নতুন অর্ডার এলে শুধু "New Order" এবং "Order Page Link" পাঠাবে
+async function sendOrderEmail(orderId) {
+    try {
+        // অর্ডার পেজের লিংক (Admin Panel-এ)
+        const orderLink = `${window.location.origin}/admin/order-details.html?id=${orderId}`;
+        
+        await fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                orderLink: orderLink
+            })
+        });
+        console.log('✅ Email sent successfully.');
+    } catch (error) {
+        console.error('❌ Email not sent:', error);
     }
-  } catch (error) {
-    console.error('Error sending email:', error);
-  }
 }
 
 async function loadOrders() {
@@ -44,10 +36,10 @@ async function loadOrders() {
     snap.forEach(orderDoc => {
         const order = orderDoc.data();
         
-        // ✅ নতুন Pending অর্ডার পেলে Email পাঠানো হবে (একবারই)
+        // ✅ নতুন Pending অর্ডার দেখলেই ইমেইল পাঠাবে (একবারই)
         if (order.status === 'Pending' && !order.emailSent) {
-            sendOrderEmail(order);
-            // ইমেইল পাঠানো হয়েছে মার্ক করা
+            sendOrderEmail(orderDoc.id);
+            // ইমেইল পাঠানো হয়েছে কিনা মার্ক করে রাখা (Firestore-এ)
             updateDoc(doc(db, "orders", orderDoc.id), { emailSent: true });
         }
         

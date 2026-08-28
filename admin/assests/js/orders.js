@@ -23,7 +23,7 @@ async function sendOrderEmail(order, orderId) {
         total: order.total,
         deliveryFee: order.deliveryFee,
         items: order.items,
-        orderLink: orderLink // Order Page link
+        orderLink: orderLink
       })
     });
     console.log('✅ Email sent successfully.');

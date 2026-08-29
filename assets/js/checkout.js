@@ -9,6 +9,7 @@ let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let singleProduct = JSON.parse(localStorage.getItem('single_product'));
 let selectedPayment = 'cash';
 let deliveryFee = 30;
+let locationURL = '';
 
 // Single Product থাকলে সেটাকে Cart-এ কনভার্ট করা
 if (singleProduct) {
@@ -81,13 +82,54 @@ window.selectPayment = (method) => {
     }
 };
 
+// 📍 Location Collect করার ফাংশন
+window.getLocation = () => {
+    const popup = document.getElementById('location-popup');
+    
+    if (!navigator.geolocation) {
+        popup.className = 'popup-message popup-error';
+        popup.innerText = '❌ আপনার ব্রাউজার Location Support করে না';
+        popup.style.display = 'block';
+        return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            
+            // Google Maps URL Generate করা
+            locationURL = `https://www.google.com/maps?q=${lat},${lng}`;
+            
+            // Location Box-এ Auto Fill
+            document.getElementById('customer-location').value = locationURL;
+            
+            // Popup Success Message
+            popup.className = 'popup-message popup-success';
+            popup.innerText = '✅ আমরা আপনার Location পেয়েছি। এখন Order Place করুন।';
+            popup.style.display = 'block';
+        },
+        (error) => {
+            // Location Permission Deny হলে
+            popup.className = 'popup-message popup-error';
+            popup.innerText = '❌ Location Permission Allow করুন';
+            popup.style.display = 'block';
+        }
+    );
+};
+
 // Order Place করার ফাংশন
 window.placeOrder = async () => {
     const name = document.getElementById('customer-name').value;
     const phone = document.getElementById('customer-phone').value;
-    const address = document.getElementById('customer-address').value;
-
-    if (!name || !phone || !address) {
+    
+    // Location Check
+    if (!locationURL) {
+        alert('📍 অনুগ্রহ করে Add Location বাটনে ক্লিক করে আপনার Location দিন!');
+        return;
+    }
+    
+    if (!name || !phone) {
         alert('সব তথ্য পূরণ করুন!');
         return;
     }
@@ -125,7 +167,7 @@ window.placeOrder = async () => {
         await addDoc(collection(db, "orders"), {
             customerName: name,
             phone: phone,
-            address: address,
+            location: locationURL, // ✅ Google Maps Location URL
             paymentMethod: selectedPayment === 'bkash' ? 'Bangla QR Pay' : 'Cash Payment',
             deliveryFee: deliveryFee,
             total: total,
@@ -133,17 +175,16 @@ window.placeOrder = async () => {
             status: "Pending"
         });
 
-        // ✅ ইমেইল পাঠানোর জন্য form.submit() ব্যবহার করা (নতুন ট্যাব খুলবে না)
+        // ✅ ইমেইল পাঠানোর জন্য form.submit() ব্যবহার করা
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = SCRIPT_URL;
         form.style.display = 'none';
         
-        // ডাটা ফিল্ডগুলো যোগ করা
         const fields = {
             customerName: name,
             phone: phone,
-            address: address,
+            address: locationURL,
             paymentMethod: selectedPayment === 'bkash' ? 'Bangla QR Pay' : 'Cash Payment',
             deliveryFee: deliveryFee,
             total: total
@@ -157,7 +198,6 @@ window.placeOrder = async () => {
             form.appendChild(input);
         }
         
-        // Items গুলো JSON স্ট্রিং হিসেবে পাঠানো
         const itemsInput = document.createElement('input');
         itemsInput.type = 'hidden';
         itemsInput.name = 'items';

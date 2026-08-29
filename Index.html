@@ -136,14 +136,67 @@
             transform: translateY(-3px);
             box-shadow: 0 5px 20px rgba(0, 168, 204, 0.3);
         }
+        
+        /* Search Box CSS */
+        .search-box {
+            width: 450px;
+            height: 55px;
+            background: #f9fafb;
+            border: 2px solid #16a34a;
+            border-radius: 30px;
+            padding: 5px 20px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            transition: 0.3s;
+        }
+        
+        .search-box:focus-within {
+            border-color: #00a8cc;
+            box-shadow: 0 5px 20px rgba(0, 168, 204, 0.2);
+        }
+        
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            color: #111;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .search-box input::placeholder {
+            color: #555;
+            font-size: 16px;
+        }
+        
+        .search-box-icon {
+            width: 40px;
+            height: 40px;
+            background: #16a34a;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            font-weight: 900;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: 0.3s;
+        }
+        
+        .search-box-icon:hover {
+            background: #00a8cc;
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="logo">ABDULLAH STORE</div>
         
-        <!-- লম্বা Search Box -->
+        <!-- ✅ বড় ও স্পষ্ট Search Box -->
         <div class="search-box">
+            <div class="search-box-icon">🔍</div>
             <input type="text" id="search-input" placeholder="পণ্য খুঁজুন..." oninput="searchProducts()">
         </div>
 

@@ -28,6 +28,26 @@ if (docSnap.exists()) {
         itemsHtml = '<p style="text-align:center; color:red; font-size:18px;">No items found in this order!</p>';
     }
 
+    // Location Check করা
+    let locationHtml = '';
+    if (order.location) {
+        locationHtml = `
+            <div class="info-item">
+                <p>Location</p>
+                <strong>${order.location}</strong>
+                <br><br>
+                <a href="${order.location}" target="_blank" class="location-btn">📍 Open Location</a>
+            </div>
+        `;
+    } else {
+        locationHtml = `
+            <div class="info-item">
+                <p>Location</p>
+                <strong style="color:red;">No Location Found</strong>
+            </div>
+        `;
+    }
+
     document.getElementById('order-details-container').innerHTML = `
         <div class="card">
             <h2>Customer Info</h2>
@@ -56,6 +76,7 @@ if (docSnap.exists()) {
                     <p>Status</p>
                     <strong>${order.status}</strong>
                 </div>
+                ${locationHtml}
             </div>
         </div>
         

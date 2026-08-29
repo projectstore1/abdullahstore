@@ -11,9 +11,18 @@ let selectedPayment = 'cash';
 let deliveryFee = 30;
 let locationURL = '';
 
-// Single Product থাকলে সেটাকে Cart-এ কনভার্ট করা
+// ✅ ফিক্স: Single Product থাকলে শুধু তা Cart-এ যোগ হবে, পুরো Cart Replace হবে না
 if (singleProduct) {
-    cart = [singleProduct];
+    // আগে থেকে এই প্রোডাক্ট Cart-এ আছে কিনা চেক করা
+    const existingItem = cart.find(item => item.id === singleProduct.id);
+    if (existingItem) {
+        existingItem.qty += singleProduct.qty;
+    } else {
+        cart.push(singleProduct);
+    }
+    // Single Product কে Remove করা (যাতে পরে Cart না মেশে)
+    localStorage.removeItem('single_product');
+    singleProduct = null;
 }
 
 // Settings থেকে Delivery Fee লোড করা

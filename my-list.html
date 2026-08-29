@@ -2,9 +2,76 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=600">
+    <meta name="viewport" content="width=1200"> <!-- PC Mode -->
     <title>My List - Abdullah Store</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .list-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+        }
+        .list-card:hover {
+            border-color: var(--deep-cyan);
+        }
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-input);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-black);
+            font-size: 22px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .qty-btn:hover {
+            border-color: var(--deep-cyan);
+            color: var(--deep-cyan);
+        }
+        .delete-btn {
+            background: var(--deep-red);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .delete-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+        .info-box {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .info-box p {
+            font-size: 18px;
+            color: #555;
+        }
+        .info-box strong {
+            font-size: 24px;
+            font-weight: 900;
+            color: #16a34a;
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -16,14 +83,17 @@
         <div class="section-title">My List</div>
         <div id="list-container"></div>
         
-        <div style="margin-top:30px; background:var(--card); padding:20px; border-radius:15px;">
-            <h3>Total Price: <span id="total-price" style="color:var(--secondary);">0</span> ৳</h3>
-            <button class="btn-primary" style="margin-top:15px;" onclick="location.href='checkout.html'">Proceed to Checkout</button>
+        <div style="margin-top:30px; background:var(--card); padding:25px; border-radius:15px; border:1px solid var(--border-color);">
+            <div class="info-box">
+                <p>Total Price:</p>
+                <strong style="color:var(--secondary);" id="total-price">0</strong>
+            </div>
+            <button class="btn-primary" style="margin-top:15px; font-size:20px; padding:18px;" onclick="location.href='checkout.html'">Proceed to Checkout</button>
         </div>
     </div>
 
     <footer class="footer">
-        Developed by Abdullah Khan
+        <strong>Developed by Abdullah Khan</strong>
     </footer>
 
     <script type="module" src="assets/js/list.js"></script>

@@ -2,38 +2,104 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200"> <!-- PC Mode Lock -->
+    <meta name="viewport" content="width=1200">
     <title>Checkout - Abdullah Store</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <script>/* Payment Method */
-.payment-method {
-    background: var(--bg-card);
-    border: 2px solid var(--border-color);
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-black);
-    transition: 0.3s;
-}
-
-.payment-method:hover {
-    border-color: var(--deep-cyan);
-}
-
-.payment-method.selected {
-    border-color: var(--deep-green) !important;
-    background: rgba(22, 163, 74, 0.1) !important;
-    box-shadow: 0 4px 15px rgba(22, 163, 74, 0.2);
-    color: var(--deep-green);
-    font-weight: 900;
-}
-    </script>
+    <style>
+        /* Big Input Boxes */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 800;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-black);
+        }
+        
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-input);
+            color: var(--text-black);
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--deep-cyan);
+            box-shadow: 0 0 0 3px rgba(0, 168, 204, 0.1);
+        }
+        
+        /* Location Box (Readonly) */
+        .location-box {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: #f9fafb;
+            color: #555;
+            font-size: 18px;
+            cursor: not-allowed;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .location-box:focus {
+            outline: none;
+            border-color: var(--border-color);
+        }
+        
+        /* Add Location Button */
+        .add-location-btn {
+            background: var(--deep-green);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        
+        .add-location-btn:hover {
+            background: var(--deep-cyan);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 168, 204, 0.3);
+        }
+        
+        /* Popup Message */
+        .popup-message {
+            display: none;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .popup-success {
+            background: #f0fdf4;
+            border: 1px solid #dcfce7;
+            color: #16a34a;
+        }
+        
+        .popup-error {
+            background: #fef2f2;
+            border: 1px solid #fee2e2;
+            color: #dc2626;
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -68,22 +134,41 @@
             <span style="font-size:24px;">💵</span> Cash Payment
         </div>
         <div class="payment-method" id="pay-bkash" onclick="selectPayment('bkash')">
-            <span style="font-size:24px;">📱</span> Bangla QR Pay MFS 
+            <span style="font-size:24px;">📱</span> Bangla QR Pay MFS
         </div>
 
         <!-- Customer Information -->
         <div class="section-title" style="margin-top:20px;">Customer Information</div>
-        <div style="background:var(--card); padding:20px; border-radius:15px;">
-            <input type="text" id="customer-name" placeholder="Your Name" style="width:100%; padding:15px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px; color:#111;">
-            <input type="text" id="customer-phone" placeholder="Phone" style="width:100%; padding:15px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px; color:#111;">
-            <textarea id="customer-address" placeholder="Address" style="width:100%; padding:15px; margin-bottom:10px; border:1px solid #E5E7EB; border-radius:8px; color:#111;"></textarea>
+        <div style="background:var(--card); padding:25px; border-radius:15px;">
+            
+            <div class="form-group">
+                <label for="customer-name">আপনার নাম</label>
+                <input type="text" id="customer-name" placeholder="আপনার নাম লিখুন">
+            </div>
+            
+            <div class="form-group">
+                <label for="customer-phone">মোবাইল নম্বর</label>
+                <input type="text" id="customer-phone" placeholder="01XXXXXXXXX">
+            </div>
+            
+            <div class="form-group">
+                <label>আপনার লোকেশন</label>
+                <!-- Location Box (Readonly) -->
+                <input type="text" id="customer-location" class="location-box" readonly placeholder="📍 Add Location বাটনে ক্লিক করুন">
+            </div>
+            
+            <!-- Add Location Button -->
+            <button class="add-location-btn" onclick="getLocation()">📍 Add Location</button>
+            
+            <!-- Popup Message -->
+            <div id="location-popup" class="popup-message"></div>
         </div>
 
-        <button class="btn-primary" style="margin-top:20px;" onclick="placeOrder()">Place Order</button>
+        <button class="btn-primary" style="margin-top:20px; font-size:20px; padding:20px;" onclick="placeOrder()">Place Order</button>
     </div>
 
     <footer class="footer">
-        Developed by Abdullah Khan
+        <strong>Developed by Abdullah Khan</strong>
     </footer>
 
     <script type="module" src="assets/js/checkout.js"></script>
